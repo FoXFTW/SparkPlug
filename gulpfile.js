@@ -7,21 +7,7 @@ var gulp = require('gulp'),
     prefix = require('gulp-autoprefixer'),
     uglify = require('gulp-uglify'),
     concat = require('gulp-concat'),
-    imagemin = require('gulp-imagemin'),
-    browserSync = require('browser-sync').create();
-
-// Static Server + watching scss/html files
-gulp.task('serve', ['sass', 'js'], function () {
-
-    browserSync.init({
-        server: './',
-        browser: "google chrome canary"
-    });
-
-    gulp.watch('resources/assets/scss/**/*.scss', ['sass']);
-    gulp.watch('resources/assets/js/**/*.js', ['js']);
-    gulp.watch('recources/views/*.php').on('change', browserSync.reload);
-});
+    imagemin = require('gulp-imagemin');
 
 // Configure CSS tasks.
 gulp.task('sass', function () {
@@ -31,8 +17,7 @@ gulp.task('sass', function () {
         .pipe(cssmin())
         .pipe(concat('app.css'))
         .pipe(rename({suffix: '.min'}))
-        .pipe(gulp.dest('public/css'))
-        .pipe(browserSync.stream());
+        .pipe(gulp.dest('public/css'));
 });
 
 // Configure JS.
@@ -41,8 +26,7 @@ gulp.task('js', function () {
         .pipe(uglify())
         .pipe(concat('app.js'))
         .pipe(rename({suffix: '.min'}))
-        .pipe(gulp.dest('public/js'))
-        .pipe(browserSync.stream());
+        .pipe(gulp.dest('public/js'));
 });
 
 // Configure image stuff.
@@ -60,7 +44,6 @@ gulp.task('copy', function () {
 gulp.task('watch', function () {
     gulp.watch('resources/assets/scss/**/*.scss', ['sass']);
     gulp.watch('resources/assets/js/**/*.js', ['js']);
-    gulp.watch('recources/views/*.php').on('change', browserSync.reload);
 });
 
-gulp.task('default', ['sass', 'js', 'images', 'copy', 'serve']);
+gulp.task('default', ['sass', 'js', 'images', 'copy']);
