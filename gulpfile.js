@@ -11,7 +11,7 @@ var gulp = require('gulp'),
 
 // Configure CSS tasks.
 gulp.task('sass', function () {
-    return gulp.src('resources/assets/scss/**/*.scss')
+    return gulp.src('resources/assets/scss/app.scss')
         .pipe(sass.sync().on('error', sass.logError))
         .pipe(prefix('last 2 versions'))
         .pipe(cssmin())
