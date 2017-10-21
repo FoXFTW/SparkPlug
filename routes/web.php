@@ -1,6 +1,3 @@
-<?php
-/**
- * User: Hannes
- * Date: 12.10.2017
- * Time: 20:40
- */
+<?php use App\SparkPlug\Routing\Router;
+
+//Router::get('/login', 'UserController@login')->name('login');

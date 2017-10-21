@@ -1,9 +1,9 @@
-<?php
+<?php use App\SparkPlug\Application, App\SparkPlug\Request\Request;
 
 require __DIR__.'/../vendor/autoload.php';
 
-$app = new \App\SparkPlug\Application(realpath(__DIR__.'/../'));
+$app = new Application(realpath(__DIR__.'/../'));
 
-$response = $app->handle(\App\SparkPlug\Request\Request::capture());
+$response = $app->handle(Request::capture());
 
 $response->send();
