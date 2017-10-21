@@ -5,7 +5,7 @@
  * Time: 17:24
  */
 
-namespace App\LaunchPad\Interfaces;
+namespace App\SparkPlug\Interfaces;
 
 
 interface ResponseInterface

@@ -5,10 +5,10 @@
  * Time: 17:17
  */
 
-namespace App\LaunchPad;
+namespace App\SparkPlug;
 
-use App\LaunchPad\Interfaces\ResponseInterface;
-use App\LaunchPad\Request\Request;
+use App\SparkPlug\Interfaces\ResponseInterface;
+use App\SparkPlug\Request\Request;
 
 class Application
 {

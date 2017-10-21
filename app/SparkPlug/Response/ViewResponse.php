@@ -5,13 +5,13 @@
  * Time: 17:23
  */
 
-namespace App\LaunchPad\Response;
+namespace App\SparkPlug\Response;
 
-use App\LaunchPad\Interfaces\ResponseInterface;
+use App\SparkPlug\Interfaces\ResponseInterface;
 
 /**
  * Class ViewResponse returns a rendered View
- * @package App\LaunchPad\Response
+ * @package App\SparkPlug\Response
  */
 class ViewResponse implements ResponseInterface
 {

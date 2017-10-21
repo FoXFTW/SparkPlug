@@ -6,7 +6,7 @@
  * Time: 17:17
  */
 
-namespace App\LaunchPad\Request;
+namespace App\SparkPlug\Request;
 
 class Request
 {
