@@ -11,7 +11,7 @@
       "App\\": "app/"
     },
     "files": [
-
+      "app/SparkPlug/helper.php"
     ]
   },
   "autoload-dev": {
