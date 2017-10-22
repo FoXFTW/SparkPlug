@@ -55,15 +55,7 @@ class Router
 
         $route = new Route($route, $options);
 
-        switch ($method) {
-            case 'GET':
-                static::$routes['GET']->add($route);
-                break;
-
-            case 'POST':
-                static::$routes['POST']->add($route);
-                break;
-        }
+        static::$routes[$method]->add($route);
 
         return $route;
     }
