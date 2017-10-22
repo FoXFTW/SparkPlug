@@ -5,8 +5,7 @@
  * Time: 17:24
  */
 
-namespace App\SparkPlug\Interfaces;
-
+namespace App\SparkPlug\Response;
 
 interface ResponseInterface
 {

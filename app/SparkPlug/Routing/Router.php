@@ -7,8 +7,8 @@
 
 namespace App\SparkPlug\Routing;
 
-
-use App\SparkPlug\Request\Request;
+use App\SparkPlug\Request\RequestInterface;
+use App\SparkPlug\Routing\Exceptions\RouteNotFoundException;
 
 class Router
 {
@@ -17,14 +17,26 @@ class Router
 
     public static $routes = [
         /** @var  \App\SparkPlug\Routing\RoutingCollection */
-        'GET' => null,
+        'GET'  => null,
         /** @var  \App\SparkPlug\Routing\RoutingCollection */
         'POST' => null,
     ];
 
-    public static function match(Request $request)
+    public static function match(RequestInterface $request): Route
     {
-        // ToDo implement Match
+        try {
+            /** @var \App\SparkPlug\Routing\Route $route */
+            $route = static::$routes[$request->getRequestMethod()]->find($request->getUri());
+        } catch (RouteNotFoundException $e) {
+            foreach (static::$routes[$request->getRequestMethod()] as $route) {
+                if (preg_match("/{$route->getRoute()}/", $request->getUri())) {
+                    return $route;
+                }
+            }
+            throw new RouteNotFoundException();
+        }
+
+        return $route;
     }
 
     public static function get(string $route, $options): Route

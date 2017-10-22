@@ -8,10 +8,15 @@
 
 namespace App\SparkPlug\Request;
 
-class Request
+class Request implements RequestInterface
 {
     public static function capture(): Request
     {
         // ToDo implement capture method
+    }
+
+    public function getUri(): string
+    {
+        // TODO: Implement getUri() method.
     }
 }

@@ -8,6 +8,7 @@
 namespace App\SparkPlug\Routing;
 
 use App\SparkPlug\Interfaces\CollectionInterface;
+use App\SparkPlug\Routing\Exceptions\RouteNotFoundException;
 use Iterator;
 use Countable;
 
@@ -33,7 +34,7 @@ class RoutingCollection implements CollectionInterface, Iterator, Countable
     public function find($id)
     {
         if (!isset($this->routes[$id])) {
-            return false;
+            throw new RouteNotFoundException();
         }
 
         return $this->routes[$id];
