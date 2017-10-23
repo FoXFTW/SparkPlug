@@ -21,7 +21,7 @@ class Route
 
     public function __construct(string $route, $options)
     {
-        $this->route = $route;
+        $this->route = ltrim($route, '/');
 
         if (is_string($options)) {
             $this->rawOptions['action'] = $options;
@@ -84,7 +84,7 @@ class Route
             throw new InvalidActionException('Provided action has length of '.count($rawAction).' should be 2');
         }
 
-        $this->controller = Router::CONTROLLER_NS.$rawAction[0];
+        $this->controller = Router::CONTROLLER_NAMESPACE.$rawAction[0];
         $this->method = $rawAction[1];
     }
 }
