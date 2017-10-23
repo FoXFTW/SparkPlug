@@ -7,8 +7,6 @@
 
 namespace App\SparkPlug\Response;
 
-use App\SparkPlug\Interfaces\ResponseInterface;
-
 /**
  * Class ViewResponse returns a rendered View
  * @package App\SparkPlug\Response

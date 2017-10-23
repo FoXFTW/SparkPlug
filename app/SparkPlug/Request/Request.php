@@ -19,4 +19,9 @@ class Request implements RequestInterface
     {
         // TODO: Implement getUri() method.
     }
+
+    public function getRequestMethod(): string
+    {
+        // TODO: Implement getRequestMethod() method.
+    }
 }
