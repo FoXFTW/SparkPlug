@@ -11,3 +11,10 @@ if (!function_exists('str_contains')) {
         return strpos($haystack, $needle) !== false;
     }
 }
+
+if (!function_exists('app')) {
+    function app()
+    {
+        return \App\SparkPlug\Application::getInstance();
+    }
+}
