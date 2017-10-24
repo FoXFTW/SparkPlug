@@ -7,18 +7,28 @@
 
 namespace App\SparkPlug\Response;
 
+use App\SparkPlug\Views\View;
+
 /**
  * Class ViewResponse returns a rendered View
  * @package App\SparkPlug\Response
  */
 class ViewResponse implements ResponseInterface
 {
+    /** @var  \App\SparkPlug\Views\View */
+    private $view;
+
+    public function __construct(string $viewName)
+    {
+        $this->view = new View($viewName);
+    }
 
     /**
      * Send the rendered Response zo zhe Browser
      */
     public function send(): void
     {
-        // TODO: Implement send() method.
+        http_response_code($this->view->getHttpCode());
+        echo $this->view->getContent();
     }
 }
