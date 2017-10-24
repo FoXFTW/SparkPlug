@@ -9,12 +9,14 @@ namespace App\SparkPlug;
 
 use App\SparkPlug\Response\ResponseInterface;
 use App\SparkPlug\Request\Request;
+use App\SparkPlug\Response\ViewResponse;
+use App\SparkPlug\Routing\Exceptions\RouteNotFoundException;
 
 class Application
 {
     private static $instance;
     private $basePath;
-    private $resolvedClasses = [];
+    private $resolvedSingletons = [];
 
     public function __construct(string $basePath)
     {
@@ -25,6 +27,7 @@ class Application
 
     public static function getInstance(): Application
     {
+        // TODO currently only needed in testing, fix
         if (is_null(static::$instance)) {
             return new Application(__DIR__);
         }
@@ -34,13 +37,13 @@ class Application
 
     public function singleton(string $className): void
     {
-        $this->resolvedClasses[$className] = new $className();
+        $this->resolvedSingletons[$className] = new $className();
     }
 
     public function make(string $className, ?bool $new = false)
     {
-        if (isset($this->resolvedClasses[$className]) && !$new) {
-            return $this->resolvedClasses[$className];
+        if (isset($this->resolvedSingletons[$className]) && !$new) {
+            return $this->resolvedSingletons[$className];
         }
 
         return new $className();
@@ -48,6 +51,18 @@ class Application
 
     public function handle(Request $request): ResponseInterface
     {
+        /** @var \App\SparkPlug\Routing\Router $router */
+        $router = $this->make(\App\SparkPlug\Routing\Router::class);
 
+        try {
+            $router->match($request);
+        } catch (RouteNotFoundException $e) {
+            return new ViewResponse('errors.404');
+        }
+    }
+
+    public function getBasePath(): string
+    {
+        return $this->basePath;
     }
 }
