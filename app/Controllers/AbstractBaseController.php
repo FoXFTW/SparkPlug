@@ -7,8 +7,15 @@
 
 namespace App\Controllers;
 
+use App\SparkPlug\Request\RequestInterface;
 
 abstract class AbstractBaseController
 {
+    /** @var  \App\SparkPlug\Request\RequestInterface */
+    private $request;
 
+    public function setRequest(RequestInterface $request): void
+    {
+        $this->request = $request;
+    }
 }
