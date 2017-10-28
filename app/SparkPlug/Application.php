@@ -7,6 +7,7 @@
 
 namespace App\SparkPlug;
 
+use App\SparkPlug\Exceptions\ClassNotFoundException;
 use App\SparkPlug\Response\ResponseInterface;
 use App\SparkPlug\Request\Request;
 use App\SparkPlug\Response\ViewResponse;
@@ -40,8 +41,12 @@ class Application
         $this->resolvedSingletons[$className] = new $className();
     }
 
-    public function make(string $className, ?bool $new = false)
+    public function make(string $className, bool $new = false)
     {
+        if (!class_exists($className)) {
+            throw new ClassNotFoundException("Class {$className} not defined or loaded!");
+        }
+
         if (isset($this->resolvedSingletons[$className]) && !$new) {
             return $this->resolvedSingletons[$className];
         }
@@ -55,10 +60,17 @@ class Application
         $router = $this->make(\App\SparkPlug\Routing\Router::class);
 
         try {
-            $router->match($request);
+            /** @var \App\SparkPlug\Routing\Route $route */
+            $route = $router->match($request);
         } catch (RouteNotFoundException $e) {
             return new ViewResponse('errors.404');
         }
+
+        /** @var \App\Controllers\AbstractBaseController $controller */
+        $controller = $this->make($route->getController());
+        $controller->setRequest($request);
+
+        return call_user_func_array([$controller, $route->getMethod()], []);
     }
 
     public function getBasePath(): string
