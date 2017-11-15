@@ -8,8 +8,8 @@
 namespace App\SparkPlug;
 
 use App\SparkPlug\Exceptions\ClassNotFoundException;
-use App\SparkPlug\Response\ResponseInterface;
 use App\SparkPlug\Request\Request;
+use App\SparkPlug\Response\ResponseInterface;
 use App\SparkPlug\Response\ViewResponse;
 use App\SparkPlug\Routing\Exceptions\RouteNotFoundException;
 

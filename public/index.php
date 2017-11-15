@@ -8,6 +8,9 @@ $app = new Application(realpath(__DIR__.'/../'));
 
 $app->singleton(\App\SparkPlug\Routing\Router::class);
 
+// ToDo load routes elsewhere
+require $app->getBasePath().'/routes/web.php';
+
 $response = $app->handle(Request::capture());
 
 $response->send();

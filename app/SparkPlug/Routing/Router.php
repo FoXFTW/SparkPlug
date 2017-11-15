@@ -16,7 +16,7 @@ class Router
     public const VERBS = ['GET', 'POST'];
 
     /** @var \App\SparkPlug\Routing\RoutingCollection[] */
-    private $routes = [];
+    public $routes = [];
 
     public function __construct()
     {

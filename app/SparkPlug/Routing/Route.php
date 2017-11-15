@@ -21,7 +21,11 @@ class Route
 
     public function __construct(string $route, $options)
     {
-        $this->route = ltrim($route, '/');
+        if ($route !== '/') {
+            $this->route = ltrim($route, '/');
+        } else {
+            $this->route = '/';
+        }
 
         if (is_string($options)) {
             $this->rawOptions['action'] = $options;

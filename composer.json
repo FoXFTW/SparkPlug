@@ -11,8 +11,7 @@
       "App\\": "app/"
     },
     "files": [
-      "app/SparkPlug/helper.php",
-      "routes/web.php"
+      "app/SparkPlug/helper.php"
     ]
   },
   "autoload-dev": {
