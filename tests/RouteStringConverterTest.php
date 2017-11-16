@@ -14,9 +14,9 @@ use PHPUnit\Framework\TestCase;
 class RouteStringConverterTest extends TestCase
 {
     private $expectedRegex = [
-        'index'        => 'index',
-        'user/profile' => 'user\/profile',
-        'user/[?]'     => 'user\/[\w]*',
+        '/index'        => '\/index',
+        '/user/profile' => '\/user\/profile',
+        '/user/[?]'     => '\/user\/[\w]*',
     ];
 
     /** @var  \App\SparkPlug\Routing\Router */
@@ -39,8 +39,8 @@ class RouteStringConverterTest extends TestCase
     protected function setUp()
     {
         $this->router = app()->make(Router::class, true);
-        $this->router->get('index', 'IndexController@test');
-        $this->router->get('user/profile', 'UserController@test');
+        $this->router->get('/index', 'IndexController@test');
+        $this->router->get('/user/profile', 'UserController@test');
         $this->router->get('/user/[?]', 'UserController@test');
 
         parent::setUp();
