@@ -18,9 +18,9 @@ class ViewResponse implements ResponseInterface
     /** @var  \App\SparkPlug\Views\View */
     private $view;
 
-    public function __construct(string $viewName)
+    public function __construct(string $viewName, int $httpCode = 200)
     {
-        $this->view = new View($viewName);
+        $this->view = new View($viewName, $httpCode);
     }
 
     /**

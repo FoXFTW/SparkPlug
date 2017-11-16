@@ -63,7 +63,7 @@ class Application
             /** @var \App\SparkPlug\Routing\Route $route */
             $route = $router->match($request);
         } catch (RouteNotFoundException $e) {
-            return new ViewResponse('errors.404');
+            return new ViewResponse('errors.404', 404);
         }
 
         /** @var \App\Controllers\AbstractBaseController $controller */

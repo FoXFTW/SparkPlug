@@ -9,8 +9,17 @@ namespace App\Controllers\User;
 
 
 use App\Controllers\AbstractBaseController;
+use App\SparkPlug\Response\ViewResponse;
 
 class AccountController extends AbstractBaseController
 {
+    public function showLoginView()
+    {
+        return new ViewResponse('user.login');
+    }
 
+    public function showRegisterView()
+    {
+        return new ViewResponse('user.register');
+    }
 }
