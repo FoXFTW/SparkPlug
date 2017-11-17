@@ -38,6 +38,7 @@ class RouteStringConverterTest extends TestCase
 
     protected function setUp()
     {
+        $app = require __DIR__.'/../config/app.php';
         $this->router = app()->make(Router::class, true);
         $this->router->get('/index', 'IndexController@test');
         $this->router->get('/user/profile', 'UserController@test');
