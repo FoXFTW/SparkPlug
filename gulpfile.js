@@ -7,7 +7,8 @@ var gulp = require('gulp'),
     prefix = require('gulp-autoprefixer'),
     uglify = require('gulp-uglify'),
     concat = require('gulp-concat'),
-    imagemin = require('gulp-imagemin');
+    imagemin = require('gulp-imagemin'),
+    gutil = require('gulp-util');
 
 // Configure CSS tasks.
 gulp.task('sass', function () {
@@ -24,6 +25,7 @@ gulp.task('sass', function () {
 gulp.task('js', function () {
     return gulp.src('resources/assets/js/**/*.js')
         .pipe(uglify())
+        .on('error', function (err) { gutil.log(gutil.colors.red('[Error]'), err.toString()); })
         .pipe(concat('app.js'))
         .pipe(rename({suffix: '.min'}))
         .pipe(gulp.dest('public/js'));
