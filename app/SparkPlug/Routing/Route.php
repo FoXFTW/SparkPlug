@@ -21,6 +21,10 @@ class Route
 
     public function __construct(string $route, $options)
     {
+        if (substr($route, 0, 1) !== '/') {
+            $route = '/'.$route;
+        }
+
         $this->route = $route;
 
         if (is_string($options)) {
