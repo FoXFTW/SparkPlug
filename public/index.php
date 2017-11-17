@@ -7,9 +7,7 @@ set_exception_handler([Handler::class, "handleException"]);
 $app = new Application(realpath(__DIR__.'/../'));
 
 $app->singleton(\App\SparkPlug\Routing\Router::class);
-
-// ToDo load routes elsewhere
-require $app->getBasePath().'/routes/web.php';
+$app->loadRoutes();
 
 $response = $app->handle(Request::capture());
 

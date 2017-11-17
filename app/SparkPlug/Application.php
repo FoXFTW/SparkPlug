@@ -22,17 +22,11 @@ class Application
     public function __construct(string $basePath)
     {
         $this->basePath = $basePath;
-
         static::$instance = $this;
     }
 
     public static function getInstance(): Application
     {
-        // TODO currently only needed in testing, fix
-        if (is_null(static::$instance)) {
-            return new Application(__DIR__);
-        }
-
         return static::$instance;
     }
 
@@ -76,5 +70,18 @@ class Application
     public function getBasePath(): string
     {
         return $this->basePath;
+    }
+
+    public function loadRoutes(): void
+    {
+        if (!is_dir($this->basePath.'/routes')) {
+            throw new \ErrorException('routes Dir is missing');
+        }
+
+        $files = glob($this->basePath.DIRECTORY_SEPARATOR.'routes'.DIRECTORY_SEPARATOR.'*.php');
+
+        foreach ($files as $file) {
+            require_once $file;
+        }
     }
 }
