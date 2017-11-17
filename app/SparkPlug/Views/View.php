@@ -45,7 +45,7 @@ class View implements ViewInterface, ResponseInterface
     }
 
     /**
-     * Send the rendered Response zo zhe Browser
+     * Send the rendered Response to the Browser
      */
     public function send(): void
     {
