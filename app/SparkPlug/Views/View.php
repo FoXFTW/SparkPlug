@@ -8,6 +8,7 @@
 namespace App\SparkPlug\Views;
 
 use App\SparkPlug\Response\ResponseInterface;
+use App\SparkPlug\Routing\Router;
 use App\SparkPlug\Views\Exceptions\ViewNotFoundException;
 
 class View implements ViewInterface, ResponseInterface
@@ -24,7 +25,9 @@ class View implements ViewInterface, ResponseInterface
     {
         $this->name = str_replace('.', DIRECTORY_SEPARATOR, $name).static::TEMPLATE_EXTENSION;
 
-        $content = file_get_contents(app()->getBasePath().static::TEMPLATE_PATH.$this->name);
+        ob_start();
+        include app()->getBasePath().static::TEMPLATE_PATH.$this->name;
+        $content = ob_get_clean();
 
         if ($content === false) {
             throw new ViewNotFoundException("View {$this->name} not found!");
@@ -57,6 +60,8 @@ class View implements ViewInterface, ResponseInterface
 
     private function renderView(): void
     {
+        $this->renderRoutes();
+
         if (!preg_match("/@use\(\'([a-z]+)\'\)/", $this->rawContent, $template)) {
             $this->renderedView = $this->rawContent;
 
@@ -65,29 +70,30 @@ class View implements ViewInterface, ResponseInterface
 
         $template = new View($template[1]);
         $template = $template->getContent();
-        $sets = $this->extractSetsFromView();
+        $sets = $this->getSetsFromView();
 
-        foreach ($sets as $key => $value)
-        {
+
+        foreach ($sets as $key => $value) {
             $template = str_replace("@var('{$key}')", $value, $template);
         }
+
 
         $this->renderedView = $template;
     }
 
-    private function extractSetsFromView(): array
+    private function getSetsFromView(): array
     {
         $simpleSets = [];
         $content = [];
 
-        preg_match_all("/@set\(\'([\w]+)\',\s?\'([\w]+)\'\)/", $this->rawContent, $matches);
+        preg_match_all("/@set\(\'([\w-]+)\',\s?\'([\w-]+)\'\)/", $this->rawContent, $matches);
 
         if (count($matches) === 3) {
             $simpleSets = array_combine($matches[1], $matches[2]);
         }
 
 
-        preg_match_all("/@set\(\'([\w]+)\'\)(.*?)@endset/s", $this->rawContent, $matches);
+        preg_match_all("/@set\(\'([\w-]+)\'\)(.*?)@endset/s", $this->rawContent, $matches);
 
         if (count($matches) === 3) {
             $content = array_combine($matches[1], $matches[2]);
@@ -96,5 +102,29 @@ class View implements ViewInterface, ResponseInterface
         $vars = array_replace($simpleSets, $content);
 
         return $vars;
+    }
+
+    private function renderRoutes(): void
+    {
+        $routeNames = $this->getRoutesFromView();
+
+        foreach ($routeNames as $routeName) {
+            /** @var Router $router */
+            $router = app()->make(Router::class);
+            $route = $router->findByName($routeName);
+
+            $this->rawContent = str_replace("@route('{$routeName}')", $route->getRoute(), $this->rawContent);
+        }
+    }
+
+    private function getRoutesFromView(): array
+    {
+        preg_match_all("/@route\(\'([\w-]+)\'\)/", $this->rawContent, $matches);
+
+        if (count($matches) === 2) {
+            return $matches[1];
+        }
+
+        return [];
     }
 }

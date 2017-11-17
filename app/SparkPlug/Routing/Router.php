@@ -16,7 +16,7 @@ class Router
     public const VERBS = ['GET', 'POST'];
 
     /** @var \App\SparkPlug\Routing\RoutingCollection[] */
-    public $routes = [];
+    private $routes = [];
 
     public function __construct()
     {
@@ -28,6 +28,19 @@ class Router
     public function getRoutes(): array
     {
         return $this->routes;
+    }
+
+    public function findByName(string $name): Route
+    {
+        foreach ($this->routes as $routingCollection) {
+            foreach ($routingCollection as $route) {
+                if ($route->getName() === $name) {
+                    return $route;
+                }
+            }
+        }
+
+        throw new RouteNotFoundException("Named '{$name}' not found!");
     }
 
     public function match(RequestInterface $request): Route
