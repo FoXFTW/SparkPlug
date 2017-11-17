@@ -7,16 +7,17 @@
 
 namespace App\SparkPlug\Views;
 
+use App\SparkPlug\Response\ResponseInterface;
 use App\SparkPlug\Views\Exceptions\ViewNotFoundException;
 
-class View implements ViewInterface
+class View implements ViewInterface, ResponseInterface
 {
     const TEMPLATE_EXTENSION = '.tmplt.php';
     const TEMPLATE_PATH = '/resources/views/';
 
     private $name;
     private $rawContent;
-    private $httpCode = 200;
+    private $httpCode;
 
     public function __construct(string $name, int $httpCode = 200)
     {
@@ -41,5 +42,14 @@ class View implements ViewInterface
     public function getHttpCode(): int
     {
         return $this->httpCode;
+    }
+
+    /**
+     * Send the rendered Response zo zhe Browser
+     */
+    public function send(): void
+    {
+        http_response_code($this->getHttpCode());
+        echo $this->getContent();
     }
 }

@@ -18,6 +18,6 @@ class PageController extends AbstractBaseController
 {
     public function showIndexView()
     {
-        return new ViewResponse('index');
+        return new View('index');
     }
 }
