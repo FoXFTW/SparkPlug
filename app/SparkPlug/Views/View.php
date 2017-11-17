@@ -18,6 +18,7 @@ class View implements ViewInterface, ResponseInterface
     private $name;
     private $rawContent;
     private $httpCode;
+    private $renderedView;
 
     public function __construct(string $name, int $httpCode = 200)
     {
@@ -30,13 +31,14 @@ class View implements ViewInterface, ResponseInterface
         }
 
         $this->rawContent = $content;
-
         $this->httpCode = $httpCode;
+
+        $this->renderView();
     }
 
     public function getContent(): string
     {
-        return $this->rawContent;
+        return $this->renderedView;
     }
 
     public function getHttpCode(): int
@@ -51,5 +53,48 @@ class View implements ViewInterface, ResponseInterface
     {
         http_response_code($this->getHttpCode());
         echo $this->getContent();
+    }
+
+    private function renderView(): void
+    {
+        if (!preg_match("/@use\(\'([a-z]+)\'\)/", $this->rawContent, $template)) {
+            $this->renderedView = $this->rawContent;
+
+            return;
+        }
+
+        $template = new View($template[1]);
+        $template = $template->getContent();
+        $sets = $this->extractSetsFromView();
+
+        foreach ($sets as $key => $value)
+        {
+            $template = str_replace("@var('{$key}')", $value, $template);
+        }
+
+        $this->renderedView = $template;
+    }
+
+    private function extractSetsFromView(): array
+    {
+        $simpleSets = [];
+        $content = [];
+
+        preg_match_all("/@set\(\'([\w]+)\',\s?\'([\w]+)\'\)/", $this->rawContent, $matches);
+
+        if (count($matches) === 3) {
+            $simpleSets = array_combine($matches[1], $matches[2]);
+        }
+
+
+        preg_match_all("/@set\(\'([\w]+)\'\)(.*?)@endset/s", $this->rawContent, $matches);
+
+        if (count($matches) === 3) {
+            $content = array_combine($matches[1], $matches[2]);
+        }
+
+        $vars = array_replace($simpleSets, $content);
+
+        return $vars;
     }
 }
