@@ -86,7 +86,7 @@ class View implements ViewInterface, ResponseInterface
         $simpleSets = [];
         $content = [];
 
-        preg_match_all("/@set\(\'([\w-]+)\',\s?\'([\w-]+)\'\)/", $this->rawContent, $matches);
+        preg_match_all("/@set\(\'([\w-]+)\',\s?\'([\w\s-]+)\'\)/", $this->rawContent, $matches);
 
         if (count($matches) === 3) {
             $simpleSets = array_combine($matches[1], $matches[2]);
