@@ -25,13 +25,12 @@ class View implements ViewInterface, ResponseInterface
     {
         $this->name = str_replace('.', DIRECTORY_SEPARATOR, $name).static::TEMPLATE_EXTENSION;
 
-        ob_start();
-        include app()->getBasePath().static::TEMPLATE_PATH.$this->name;
-        $content = ob_get_clean();
-
-        if ($content === false) {
+        if (!is_file(app()->getBasePath().static::TEMPLATE_PATH.$this->name)) {
             throw new ViewNotFoundException("View {$this->name} not found!");
         }
+
+        $content = $this->getViewFileContent();
+
 
         $this->rawContent = $content;
         $this->httpCode = $httpCode;
@@ -42,6 +41,11 @@ class View implements ViewInterface, ResponseInterface
     public function getContent(): string
     {
         return $this->renderedView;
+    }
+
+    public function getRawContent(): string
+    {
+        return $this->getViewFileContent();
     }
 
     public function getHttpCode(): int
@@ -56,6 +60,13 @@ class View implements ViewInterface, ResponseInterface
     {
         http_response_code($this->getHttpCode());
         echo $this->getContent();
+    }
+
+    private function getViewFileContent(): string
+    {
+        ob_start();
+        include app()->getBasePath().static::TEMPLATE_PATH.$this->name;
+        return ob_get_clean();
     }
 
     private function renderView(): void

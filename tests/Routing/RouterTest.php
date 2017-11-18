@@ -15,6 +15,10 @@ class RouterTest extends TestCase
     /** @var  Router */
     private $router;
 
+    /**
+     * @covers Router::get()
+     * @covers Router::getRoutes()
+     */
     public function testAddRoute()
     {
         $this->router->get('index', 'FakeController@method');

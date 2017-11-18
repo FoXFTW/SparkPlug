@@ -22,6 +22,9 @@ class RouteStringConverterTest extends TestCase
     /** @var  \App\SparkPlug\Routing\Router */
     private $router;
 
+    /**
+     * @covers RouteStringConverter
+     */
     public function testRegexConversion()
     {
         $regexStart = RouteStringConverter::REGEX_START;
