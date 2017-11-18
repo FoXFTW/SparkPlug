@@ -61,6 +61,7 @@ class View implements ViewInterface, ResponseInterface
     private function renderView(): void
     {
         $this->renderRoutes();
+        $this->renderSubViews();
 
         if (!preg_match("/@use\(\'([a-z]+)\'\)/", $this->rawContent, $template)) {
             $this->renderedView = $this->rawContent;
@@ -79,6 +80,29 @@ class View implements ViewInterface, ResponseInterface
 
 
         $this->renderedView = $template;
+    }
+
+    private function renderRoutes(): void
+    {
+        $routeNames = $this->getRoutesFromView();
+
+        foreach ($routeNames as $routeName) {
+            /** @var Router $router */
+            $router = app()->make(Router::class);
+            $route = $router->findByName($routeName);
+
+            $this->rawContent = str_replace("@route('{$routeName}')", $route->getRoute(), $this->rawContent);
+        }
+    }
+
+    private function renderSubViews(): void
+    {
+        $subTemplates = $this->getSubTemplatesFromView();
+
+        foreach ($subTemplates as $subTemplate) {
+            $view = new View($subTemplate);
+            $this->rawContent = str_replace("@include('{$subTemplate}')", $view->getContent(), $this->rawContent);
+        }
     }
 
     private function getSetsFromView(): array
@@ -104,22 +128,20 @@ class View implements ViewInterface, ResponseInterface
         return $vars;
     }
 
-    private function renderRoutes(): void
-    {
-        $routeNames = $this->getRoutesFromView();
-
-        foreach ($routeNames as $routeName) {
-            /** @var Router $router */
-            $router = app()->make(Router::class);
-            $route = $router->findByName($routeName);
-
-            $this->rawContent = str_replace("@route('{$routeName}')", $route->getRoute(), $this->rawContent);
-        }
-    }
-
     private function getRoutesFromView(): array
     {
         preg_match_all("/@route\(\'([\w-]+)\'\)/", $this->rawContent, $matches);
+
+        if (count($matches) === 2) {
+            return $matches[1];
+        }
+
+        return [];
+    }
+
+    private function getSubTemplatesFromView(): array
+    {
+        preg_match_all("/@include\(\'([\w-]+)\'\)/", $this->rawContent, $matches);
 
         if (count($matches) === 2) {
             return $matches[1];
