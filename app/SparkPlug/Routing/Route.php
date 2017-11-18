@@ -25,7 +25,7 @@ class Route
             $route = '/'.$route;
         }
 
-        $this->route = $route;
+        $this->route = strtolower($route);
 
         if (is_string($options)) {
             $this->rawOptions['action'] = $options;
