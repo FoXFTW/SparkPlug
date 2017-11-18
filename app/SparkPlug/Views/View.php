@@ -117,7 +117,7 @@ class View implements ViewInterface, ResponseInterface
         }
 
 
-        preg_match_all("/@set\(\'([\w-]+)\'\)(.*?)@endset/s", $this->rawContent, $matches);
+        preg_match_all("/@set\(\'([\w-]+)\'\)([\w\W]+?)@endset/s", $this->rawContent, $matches);
 
         if (count($matches) === 3) {
             $content = array_combine($matches[1], $matches[2]);
