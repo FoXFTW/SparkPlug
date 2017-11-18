@@ -24,7 +24,7 @@ class RouteTest extends TestCase
     }
 
     /**
-     * @covers Route::getName()
+     * @covers \App\SparkPlug\Routing\Route::getName()
      */
     public function testGetNameWithoutName()
     {
@@ -32,7 +32,7 @@ class RouteTest extends TestCase
     }
 
     /**
-     * @covers Route::getName()
+     * @covers \App\SparkPlug\Routing\Route::getName()
      */
     public function testGetName()
     {
@@ -42,7 +42,7 @@ class RouteTest extends TestCase
     }
 
     /**
-     * @covers Route::getRoute()
+     * @covers \App\SparkPlug\Routing\Route::getRoute()
      */
     public function testGetRouteLowerCase()
     {
@@ -52,7 +52,7 @@ class RouteTest extends TestCase
     }
 
     /**
-     * @covers Route::getRoute()
+     * @covers \App\SparkPlug\Routing\Route::getRoute()
      */
     public function testGetRouteWithoutSlash()
     {
@@ -61,7 +61,7 @@ class RouteTest extends TestCase
     }
 
     /**
-     * @covers Route::getRoute()
+     * @covers \App\SparkPlug\Routing\Route::getRoute()
      */
     public function testGetRoute()
     {
@@ -69,8 +69,8 @@ class RouteTest extends TestCase
     }
 
     /**
-     * @covers Route::parseOptions()
-     * @covers Route::parseAction()
+     * @covers \App\SparkPlug\Routing\Route::parseOptions()
+     * @covers \App\SparkPlug\Routing\Route::parseAction()
      */
     public function testInvalidActionString()
     {
@@ -79,8 +79,8 @@ class RouteTest extends TestCase
     }
 
     /**
-     * @covers Route::parseOptions()
-     * @covers Route::parseAction()
+     * @covers \App\SparkPlug\Routing\Route::parseOptions()
+     * @covers \App\SparkPlug\Routing\Route::parseAction()
      */
     public function testInvalidAction()
     {
@@ -89,8 +89,8 @@ class RouteTest extends TestCase
     }
 
     /**
-     * @covers Route::parseOptions()
-     * @covers Route::parseAction()
+     * @covers \App\SparkPlug\Routing\Route::parseOptions()
+     * @covers \App\SparkPlug\Routing\Route::parseAction()
      */
     public function testMissingActionArray()
     {
@@ -99,8 +99,8 @@ class RouteTest extends TestCase
     }
 
     /**
-     * @covers Route::__toString
-     * @covers Route::name()
+     * @covers \App\SparkPlug\Routing\Route::__toString
+     * @covers \App\SparkPlug\Routing\Route::name()
      */
     public function testToString()
     {
@@ -110,7 +110,7 @@ class RouteTest extends TestCase
     }
 
     /**
-     * @covers Route::getMethod()
+     * @covers \App\SparkPlug\Routing\Route::getMethod()
      */
     public function testGetMethod()
     {
@@ -118,7 +118,7 @@ class RouteTest extends TestCase
     }
 
     /**
-     * @covers Route::getController()
+     * @covers \App\SparkPlug\Routing\Route::getController()
      */
     public function testGetController()
     {

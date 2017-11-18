@@ -21,8 +21,8 @@ class ViewClassTest extends TestCase
     }
 
     /**
-     * @covers View::getContent()
-     * @covers View::renderView()
+     * @covers \App\SparkPlug\Views\View::getContent()
+     * @covers \App\SparkPlug\Views\View::renderView()
      */
     public function testLoadView()
     {
@@ -31,9 +31,9 @@ class ViewClassTest extends TestCase
     }
 
     /**
-     * @covers View::getContent()
-     * @covers View::renderView()
-     * @covers View::renderSubViews()
+     * @covers \App\SparkPlug\Views\View::getContent()
+     * @covers \App\SparkPlug\Views\View::renderView()
+     * @covers \App\SparkPlug\Views\View::renderSubViews()
      */
     public function testLoadViewWithTemplate()
     {
@@ -42,8 +42,8 @@ class ViewClassTest extends TestCase
     }
 
     /**
-     * @covers View::getContent()
-     * @covers View::renderView()
+     * @covers \App\SparkPlug\Views\View::getContent()
+     * @covers \App\SparkPlug\Views\View::renderView()
      */
     public function testLoadViewWithoutTemplate()
     {
@@ -52,9 +52,9 @@ class ViewClassTest extends TestCase
     }
 
     /**
-     * @covers View::getContent()
-     * @covers View::getRawContent()
-     * @covers View::renderView()
+     * @covers \App\SparkPlug\Views\View::getContent()
+     * @covers \App\SparkPlug\Views\View::getRawContent()
+     * @covers \App\SparkPlug\Views\View::renderView()
      */
     public function testRenderRoutes()
     {
