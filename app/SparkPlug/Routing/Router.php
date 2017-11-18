@@ -40,7 +40,7 @@ class Router
             }
         }
 
-        throw new RouteNotFoundException("Named '{$name}' not found!");
+        throw new RouteNotFoundException("Named Route '{$name}' not found!");
     }
 
     public function match(RequestInterface $request): Route
