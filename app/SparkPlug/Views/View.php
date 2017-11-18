@@ -141,7 +141,7 @@ class View implements ViewInterface, ResponseInterface
 
     private function getSubTemplatesFromView(): array
     {
-        preg_match_all("/@include\(\'([\w-]+)\'\)/", $this->rawContent, $matches);
+        preg_match_all("/@include\(\'([\w\.-]+)\'\)/", $this->rawContent, $matches);
 
         if (count($matches) === 2) {
             return $matches[1];
