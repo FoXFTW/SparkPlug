@@ -64,7 +64,7 @@ class Application
         $controller = $this->make($route->getController());
         $controller->setRequest($request);
 
-        return call_user_func_array([$controller, $route->getMethod()], []);
+        return call_user_func_array([$controller, $route->getMethod()], $route->getArguments());
     }
 
     public function getBasePath(): string

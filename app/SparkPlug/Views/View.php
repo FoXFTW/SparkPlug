@@ -19,6 +19,7 @@ class View implements ViewInterface, ResponseInterface
     private $name;
     private $rawContent;
     private $httpCode;
+    private $variables;
     private $renderedView;
 
     public function __construct(string $name, int $httpCode = 200)
@@ -29,17 +30,13 @@ class View implements ViewInterface, ResponseInterface
             throw new ViewNotFoundException("View {$this->name} not found!");
         }
 
-        $content = $this->getViewFileContent();
-
-
-        $this->rawContent = $content;
         $this->httpCode = $httpCode;
-
-        $this->renderView();
     }
 
     public function getContent(): string
     {
+        $this->renderView();
+
         return $this->renderedView;
     }
 
@@ -51,6 +48,11 @@ class View implements ViewInterface, ResponseInterface
     public function getHttpCode(): int
     {
         return $this->httpCode;
+    }
+
+    public function setVars(array $vars): void
+    {
+        $this->variables = $vars;
     }
 
     /**
@@ -65,12 +67,19 @@ class View implements ViewInterface, ResponseInterface
     private function getViewFileContent(): string
     {
         ob_start();
+        if (is_array($this->variables)) {
+            extract($this->variables);
+        }
         include app()->getBasePath().static::TEMPLATE_PATH.$this->name;
         return ob_get_clean();
     }
 
     private function renderView(): void
     {
+        $content = $this->getViewFileContent();
+
+        $this->rawContent = $content;
+
         $this->renderRoutes();
         $this->renderSubViews();
 

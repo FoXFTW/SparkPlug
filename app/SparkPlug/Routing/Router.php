@@ -54,7 +54,11 @@ class Router
             $route = $this->routes[$request->getRequestMethod()]->find($request->getUri());
         } catch (RouteNotFoundException $e) {
             foreach ($this->routes[$request->getRequestMethod()] as $route) {
-                if (preg_match(RouteStringConverter::toRegex($route), $request->getUri())) {
+                if (preg_match(RouteStringConverter::toRegex($route), $request->getUri(), $match)) {
+                    if (isset($match[1])) {
+                        $route->setArguments($match[1]);
+                    }
+
                     return $route;
                 }
             }

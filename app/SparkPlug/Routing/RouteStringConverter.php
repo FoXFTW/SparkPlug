@@ -18,11 +18,11 @@ class RouteStringConverter
     ];
 
     const CONVERSION_DICTIONARY_TO = [
-        '[a-z]*',
-        '[a-z_]*',
-        '[0-9]*',
-        '[0-9_]*',
-        '[\w]*',
+        '([a-z]*)',
+        '([a-z_]*)',
+        '([0-9]*)',
+        '([0-9_]*)',
+        '([\w]*)',
     ];
 
     const REGEX_START = '/^';

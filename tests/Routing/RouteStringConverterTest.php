@@ -16,7 +16,7 @@ class RouteStringConverterTest extends TestCase
     private $expectedRegex = [
         '/index'        => '\/index',
         '/user/profile' => '\/user\/profile',
-        '/user/[?]'     => '\/user\/[\w]*',
+        '/user/[?]'     => '\/user\/([\w]*)',
     ];
 
     /** @var  \App\SparkPlug\Routing\Router */

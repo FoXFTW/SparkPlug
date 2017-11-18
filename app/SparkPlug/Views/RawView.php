@@ -8,13 +8,16 @@
 namespace App\SparkPlug\Views;
 
 
-class RawView implements ViewInterface
+use App\SparkPlug\Response\ResponseInterface;
+
+class RawView implements ViewInterface, ResponseInterface
 {
     private $content;
     private $httpCode;
 
-    public function setContent(string $content): void
+    public function setContent(string $content, int $httpCode = 200): void
     {
+        $this->httpCode = $httpCode;
         $this->content = $content;
     }
 
@@ -31,5 +34,14 @@ class RawView implements ViewInterface
     public function getHttpCode(): int
     {
         return $this->httpCode;
+    }
+
+    /**
+     * Send the rendered Response to the Browser
+     */
+    public function send(): void
+    {
+        http_response_code($this->getHttpCode());
+        echo $this->getContent();
     }
 }
