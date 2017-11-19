@@ -18,7 +18,7 @@ use App\SparkPlug\Routing\Exceptions\MissingActionException;
 class Route
 {
     /** @var string Name der Route */
-    private $name = '';
+    private $name = '<<NameLess>>';
     /** @var string Name des Controllers */
     private $controller;
     /** @var string Methode des Controllers */
@@ -70,20 +70,6 @@ class Route
     }
 
     /**
-     * Setzt Argumente der Route
-     *
-     * @param array|string $args
-     */
-    public function setArguments($args): void
-    {
-        if (!is_array($args)) {
-            $args = [$args];
-        }
-
-        $this->arguments = $args;
-    }
-
-    /**
      * Prüft ob Controller Argumente benötigt
      *
      * @return bool
@@ -101,6 +87,32 @@ class Route
     public function getArguments(): array
     {
         return $this->arguments;
+    }
+
+    /**
+     * Setzt Argumente der Route
+     * Konvertiert Strings welche Int/Floats sind zu ihren entsprechenden Werten
+     *
+     * @param array|string $args
+     */
+    public function setArguments($args): void
+    {
+        if (!is_array($args)) {
+            $args = [$args];
+        }
+
+        foreach ($args as $key => $arg) {
+            if (is_numeric($arg)) {
+                $float = floatval($arg);
+                if ($float && intval($float) != $float) {
+                    $args[$key] = floatval($arg);
+                } else {
+                    $args[$key] = intval($arg);
+                }
+            }
+        }
+
+        $this->arguments = $args;
     }
 
     /**
