@@ -85,7 +85,8 @@ class Router
             foreach ($this->routes[$request->getRequestMethod()] as $route) {
                 if (preg_match(RouteStringConverter::toRegex($route), $request->getUri(), $match)) {
                     if (isset($match[1])) {
-                        $route->setArguments($match[1]);
+                        array_shift($match);
+                        $route->setArguments($match);
                     }
 
                     return $route;
