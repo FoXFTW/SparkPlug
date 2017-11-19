@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 /**
  * User: Hannes
  * Date: 20.10.2017
@@ -7,6 +7,11 @@
 
 namespace App\SparkPlug\Response;
 
+/**
+ * Interface ResponseInterface
+ *
+ * @package App\SparkPlug\Response
+ */
 interface ResponseInterface
 {
     /**

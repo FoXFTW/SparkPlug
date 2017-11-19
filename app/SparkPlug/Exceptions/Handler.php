@@ -10,8 +10,21 @@ namespace App\SparkPlug\Exceptions;
 use App\SparkPlug\Views\Exceptions\ViewNotFoundException;
 use Exception;
 
+/**
+ * Class Handler
+ * Verarbeitet Exceptions der App
+ *
+ * @package App\SparkPlug\Exceptions
+ */
 class Handler
 {
+    /**
+     * Konvertiert eine gegebene Exception zu einem string
+     *
+     * @param \Exception $e Zu verarbeitende Exception
+     *
+     * @return string
+     */
     public static function printException(Exception $e): string
     {
         return "Exception: ".get_class($e)."\nMessage:\n".htmlentities(
@@ -19,6 +32,11 @@ class Handler
             )."\nStack trace:\n{$e->getTraceAsString()}\n";
     }
 
+    /**
+     * Führt anhand des Exceptiontyps verschiedene Aktionen aus
+     *
+     * @param \Exception $e Zu verarbeitende Exception
+     */
     public static function handleException(Exception $e)
     {
         $class = get_class($e);
@@ -34,6 +52,13 @@ class Handler
         }
     }
 
+    /**
+     * Rendered eine gegebene Exception zu HTML
+     *
+     * @param \Exception $e zu verarbeitende Exception
+     *
+     * @return string
+     */
     private static function convertExceptionToHtml(Exception $e): string
     {
         $content = "<h1>Exception: ".get_class($e)."</h1>".

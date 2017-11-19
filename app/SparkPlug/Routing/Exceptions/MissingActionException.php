@@ -10,8 +10,21 @@ namespace App\SparkPlug\Routing\Exceptions;
 use Exception;
 use Throwable;
 
+/**
+ * Class MissingActionException
+ * Wird geworfen wenn Action-Parameter einer Route fehlt
+ *
+ * @package App\SparkPlug\Routing\Exceptions
+ */
 class MissingActionException extends Exception
 {
+    /**
+     * MissingActionException constructor.
+     *
+     * @param string          $message
+     * @param int             $code
+     * @param \Throwable|null $previous
+     */
     public function __construct($message = "", $code = 0, Throwable $previous = null)
     {
         parent::__construct('Required Parameter Action is missing', $code, $previous);

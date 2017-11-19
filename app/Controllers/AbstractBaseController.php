@@ -9,11 +9,21 @@ namespace App\Controllers;
 
 use App\SparkPlug\Request\RequestInterface;
 
+/**
+ * Class AbstractBaseController
+ *
+ * @package App\Controllers
+ */
 abstract class AbstractBaseController
 {
     /** @var  \App\SparkPlug\Request\RequestInterface */
     private $request;
 
+    /**
+     * Speichert gegebenen Request in Controller
+     *
+     * @param \App\SparkPlug\Request\RequestInterface $request
+     */
     public function setRequest(RequestInterface $request): void
     {
         $this->request = $request;

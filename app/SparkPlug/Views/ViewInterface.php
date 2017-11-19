@@ -7,9 +7,23 @@
 
 namespace App\SparkPlug\Views;
 
+/**
+ * Interface ViewInterface
+ * @package App\SparkPlug\Views
+ */
 interface ViewInterface
 {
+    /**
+     * Gibt den gerenderten Inhalt des Views zurück
+     *
+     * @return string Rendered View
+     */
     public function getContent(): string;
 
+    /**
+     * HTTP Code des Views
+     *
+     * @return int http code
+     */
     public function getHttpCode(): int;
 }

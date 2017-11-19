@@ -7,6 +7,11 @@
 
 namespace App\Models;
 
+/**
+ * Class AbstractBaseModel
+ *
+ * @package App\Models
+ */
 abstract class AbstractBaseModel
 {
 

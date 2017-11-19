@@ -10,13 +10,27 @@ namespace App\SparkPlug\Request;
 
 use InvalidArgumentException;
 
+/**
+ * Class Request
+ *
+ * @package App\SparkPlug\Request
+ */
 class Request implements RequestInterface
 {
+    /** @var string $uri */
     private $uri;
+    /** @var string Request Method [GET|POST] */
     private $requestMethod;
+    /** @var array GET Vars des Request */
     private $getVars = [];
+    /** @var array POST Vars des Request */
     private $postVars = [];
 
+    /**
+     * Request constructor.
+     *
+     * @param array $data Daten des Requests
+     */
     private function __construct(array $data)
     {
         $this->uri = $data['uri'];
@@ -25,7 +39,11 @@ class Request implements RequestInterface
         $this->postVars = $data['post'];
     }
 
-
+    /**
+     * Erstellt eine Request Instanz mit dem aktuellen HTTP Request
+     *
+     * @return \App\SparkPlug\Request\Request
+     */
     public static function capture(): Request
     {
         $data = [
@@ -46,6 +64,13 @@ class Request implements RequestInterface
         return static::createFromArray($data);
     }
 
+    /**
+     * Erstellt Request anhand von Array
+     *
+     * @param array $data
+     *
+     * @return \App\SparkPlug\Request\Request
+     */
     public static function createFromArray(array $data): Request
     {
         if (!isset($data['uri']) || !isset($data['method'])) {
@@ -55,16 +80,33 @@ class Request implements RequestInterface
         return new Request($data);
     }
 
+    /**
+     * Gibt URI Des Requests zurück
+     *
+     * @return string
+     */
     public function getUri(): string
     {
         return $this->uri;
     }
 
+    /**
+     * Gibt Methode des Requests zurück [GET|POST]
+     *
+     * @return string
+     */
     public function getRequestMethod(): string
     {
         return $this->requestMethod;
     }
 
+    /**
+     * Durchsucht GET und POST Parameter nach gegebenem Key
+     *
+     * @param string $key
+     *
+     * @return mixed
+     */
     public function get(string $key)
     {
         if (isset($this->postVars[$key])) {

@@ -7,6 +7,11 @@
 
 namespace App\SparkPlug\Routing;
 
+/**
+ * Class RouteStringConverter
+ *
+ * @package App\SparkPlug\Routing
+ */
 class RouteStringConverter
 {
     const CONVERSION_DICTIONARY_FROM = [
@@ -28,6 +33,13 @@ class RouteStringConverter
     const REGEX_START = '/^';
     const REGEX_END = '$/i';
 
+    /**
+     * Konvertiert Routen-Syntax zu REGEX
+     *
+     * @param \App\SparkPlug\Routing\Route $route
+     *
+     * @return string
+     */
     public static function toRegex(Route $route): string
     {
         $route = $route->getRoute();

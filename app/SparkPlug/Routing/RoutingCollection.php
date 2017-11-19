@@ -12,12 +12,23 @@ use App\SparkPlug\Routing\Exceptions\RouteNotFoundException;
 use Iterator;
 use Countable;
 
+/**
+ * Class RoutingCollection
+ *
+ * @package App\SparkPlug\Routing
+ */
 class RoutingCollection implements CollectionInterface, Iterator, Countable
 {
     private $routes = [];
     private $keys = [];
     private $currentPosition = 0;
 
+    /**
+     * @inheritdoc
+     * @param mixed $route
+     *
+     * @return array
+     */
     public function add($route): array
     {
         if (!$route instanceof Route) {
@@ -31,6 +42,13 @@ class RoutingCollection implements CollectionInterface, Iterator, Countable
         return $this->routes;
     }
 
+    /**
+     * @inheritdoc
+     * @param mixed $id
+     *
+     * @return mixed
+     * @throws \App\SparkPlug\Routing\Exceptions\RouteNotFoundException
+     */
     public function find($id)
     {
         if (!isset($this->routes[$id])) {
@@ -40,6 +58,10 @@ class RoutingCollection implements CollectionInterface, Iterator, Countable
         return $this->routes[$id];
     }
 
+    /**
+     * @inheritdoc
+     * @return array
+     */
     public function all(): array
     {
         return $this->routes;

@@ -7,9 +7,13 @@
 
 namespace App\Controllers\User\Auth;
 
-
 use App\Controllers\AbstractBaseController;
 
+/**
+ * Class LoginController
+ *
+ * @package App\Controllers\User\Auth
+ */
 class LoginController extends AbstractBaseController
 {
 

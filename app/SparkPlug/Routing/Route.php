@@ -10,16 +10,32 @@ namespace App\SparkPlug\Routing;
 use App\SparkPlug\Routing\Exceptions\InvalidActionException;
 use App\SparkPlug\Routing\Exceptions\MissingActionException;
 
+/**
+ * Class Route
+ *
+ * @package App\SparkPlug\Routing
+ */
 class Route
 {
+    /** @var string Name der Route */
     private $name = '';
+    /** @var string Name des Controllers */
     private $controller;
+    /** @var string Methode des Controllers */
     private $method;
+    /** @var array Argumente des Controllers */
     private $arguments = [];
+    /** @var string Route */
     private $route;
-
+    /** @var array|string Unverarbeitete Optionen */
     private $rawOptions = [];
 
+    /**
+     * Route constructor.
+     *
+     * @param string       $route   URI der Route
+     * @param array|string $options Optionen der Route
+     */
     public function __construct(string $route, $options)
     {
         if (substr($route, 0, 1) !== '/') {
@@ -39,6 +55,13 @@ class Route
         $this->parseOptions();
     }
 
+    /**
+     * Setzt Namen der Route
+     *
+     * @param string $name
+     *
+     * @return \App\SparkPlug\Routing\Route
+     */
     public function name(string $name): Route
     {
         $this->name = $name;
@@ -46,6 +69,11 @@ class Route
         return $this;
     }
 
+    /**
+     * Setzt Argumente der Route
+     *
+     * @param array|string $args
+     */
     public function setArguments($args): void
     {
         if (!is_array($args)) {
@@ -55,36 +83,69 @@ class Route
         $this->arguments = $args;
     }
 
+    /**
+     * Prüft ob Controller Argumente benötigt
+     *
+     * @return bool
+     */
     public function hasArgs(): bool
     {
         return !empty($this->arguments);
     }
 
+    /**
+     * Gibt gespeicherte Argumente zurück
+     *
+     * @return array
+     */
     public function getArguments(): array
     {
         return $this->arguments;
     }
 
+    /**
+     * Gibt Namen der Route zurück
+     *
+     * @return null|string
+     */
     public function getName(): ?string
     {
         return $this->name;
     }
 
+    /**
+     * Gibt URI der Route zurück
+     *
+     * @return string
+     */
     public function getRoute(): string
     {
         return $this->route;
     }
 
+    /**
+     * Gibt Namen des Controller der Route zurück
+     *
+     * @return string
+     */
     public function getController(): string
     {
         return $this->controller;
     }
 
+    /**
+     * Gibt Name der Methode des Controllers zurück
+     *
+     * @return string
+     */
     public function getMethod(): string
     {
         return $this->method;
     }
 
+    /**
+     * @return string
+     */
     public function __toString()
     {
         return "{$this->name}: {$this->controller}@{$this->method}";

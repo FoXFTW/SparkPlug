@@ -9,6 +9,11 @@ namespace App\Controllers\User\Auth;
 
 use App\Controllers\AbstractBaseController;
 
+/**
+ * Class RegisterController
+ *
+ * @package App\Controllers\User\Auth
+ */
 class RegisterController extends AbstractBaseController
 {
 

@@ -7,21 +7,37 @@
 
 namespace App\SparkPlug\Views;
 
-use App\SparkPlug\Response\ResponseInterface;
 use App\SparkPlug\Routing\Router;
 use App\SparkPlug\Views\Exceptions\ViewNotFoundException;
 
-class View implements ViewInterface, ResponseInterface
+/**
+ * Class View
+ * Verarbeitet SparkPlug View Dateien
+ *
+ * @package App\SparkPlug\Views
+ */
+class View extends AbstractBaseView
 {
     const TEMPLATE_EXTENSION = '.tmplt.php';
     const TEMPLATE_PATH = '/resources/views/';
 
+    /** @var string Name der Datei ohne Endung */
     private $name;
+    /** @var  string Dateiinhalt */
     private $rawContent;
-    private $httpCode;
+    /** @var  array Variablen welche in View geladen werden */
     private $variables;
+    /** @var  string Gerenderted Inhalt; wird an Browser gesendet */
     private $renderedView;
 
+    /**
+     * View constructor.
+     *
+     * @param string $name     Name der Datei in dot Notation
+     * @param int    $httpCode HTTP Status Code
+     *
+     * @throws \App\SparkPlug\Views\Exceptions\ViewNotFoundException
+     */
     public function __construct(string $name, int $httpCode = 200)
     {
         $this->name = str_replace('.', DIRECTORY_SEPARATOR, $name).static::TEMPLATE_EXTENSION;
@@ -33,6 +49,11 @@ class View implements ViewInterface, ResponseInterface
         $this->httpCode = $httpCode;
     }
 
+    /**
+     * Gibt den gerenderten Inhalt des Views zurück
+     *
+     * @return string Rendered View
+     */
     public function getContent(): string
     {
         $this->renderView();
@@ -40,30 +61,27 @@ class View implements ViewInterface, ResponseInterface
         return $this->renderedView;
     }
 
+    /**
+     * @return string Dateiinhalt des Views
+     */
     public function getRawContent(): string
     {
         return $this->getViewFileContent();
     }
 
-    public function getHttpCode(): int
-    {
-        return $this->httpCode;
-    }
-
+    /**
+     * Verarbeitet ein AssocArray zu Key Value paaren
+     *
+     * @param array $vars Array mit zu setzenden Variablen
+     */
     public function setVars(array $vars): void
     {
         $this->variables = $vars;
     }
 
     /**
-     * Send the rendered Response to the Browser
+     * @return string Dateiinhalt mit verarbeitetem PHP-Code
      */
-    public function send(): void
-    {
-        http_response_code($this->getHttpCode());
-        echo $this->getContent();
-    }
-
     private function getViewFileContent(): string
     {
         ob_start();
@@ -71,9 +89,13 @@ class View implements ViewInterface, ResponseInterface
             extract($this->variables);
         }
         include app()->getBasePath().static::TEMPLATE_PATH.$this->name;
+
         return ob_get_clean();
     }
 
+    /**
+     * Renders Templatesyntax into HTML
+     */
     private function renderView(): void
     {
         $content = $this->getViewFileContent();
@@ -125,6 +147,9 @@ class View implements ViewInterface, ResponseInterface
         }
     }
 
+    /**
+     * @return array Matched Sets @set('name', 'value')
+     */
     private function getSetsFromView(): array
     {
         $simpleSets = [];
@@ -148,6 +173,9 @@ class View implements ViewInterface, ResponseInterface
         return $vars;
     }
 
+    /**
+     * @return array Matched Routes @route('name')
+     */
     private function getRoutesFromView(): array
     {
         preg_match_all("/@route\(\'([\w-]+)\'\)/", $this->rawContent, $matches);
@@ -159,6 +187,9 @@ class View implements ViewInterface, ResponseInterface
         return [];
     }
 
+    /**
+     * @return array Matched Includes @include('viewName')
+     */
     private function getSubTemplatesFromView(): array
     {
         preg_match_all("/@include\(\'([\w\.-]+)\'\)/", $this->rawContent, $matches);

@@ -10,6 +10,11 @@ namespace App\SparkPlug\Routing;
 use App\SparkPlug\Request\RequestInterface;
 use App\SparkPlug\Routing\Exceptions\RouteNotFoundException;
 
+/**
+ * Class Router
+ *
+ * @package App\SparkPlug\Routing
+ */
 class Router
 {
     public const CONTROLLER_NAMESPACE = 'App\Controllers\\';
@@ -18,6 +23,9 @@ class Router
     /** @var \App\SparkPlug\Routing\RoutingCollection[] */
     private $routes = [];
 
+    /**
+     * Router constructor.
+     */
     public function __construct()
     {
         foreach (static::VERBS as $verb) {
@@ -25,11 +33,24 @@ class Router
         }
     }
 
+    /**
+     * Gibt gespeicherte Routen zurück
+     *
+     * @return array
+     */
     public function getRoutes(): array
     {
         return $this->routes;
     }
 
+    /**
+     * Durchsucht Collections nach Name
+     *
+     * @param string $name Name der Route
+     *
+     * @return \App\SparkPlug\Routing\Route
+     * @throws \App\SparkPlug\Routing\Exceptions\RouteNotFoundException
+     */
     public function findByName(string $name): Route
     {
         foreach ($this->routes as $routingCollection) {
@@ -43,6 +64,14 @@ class Router
         throw new RouteNotFoundException("Named Route '{$name}' not found!");
     }
 
+    /**
+     * Matcht einen Request gegen gespeicherte Routen
+     *
+     * @param \App\SparkPlug\Request\RequestInterface $request
+     *
+     * @return \App\SparkPlug\Routing\Route
+     * @throws \App\SparkPlug\Routing\Exceptions\RouteNotFoundException
+     */
     public function match(RequestInterface $request): Route
     {
         if (!in_array($request->getRequestMethod(), static::VERBS)) {
@@ -68,16 +97,39 @@ class Router
         return $route;
     }
 
+    /**
+     * Fügt neue GET Route hinzu
+     *
+     * @param string       $route   URI
+     * @param array|string $options Optionen
+     *
+     * @return \App\SparkPlug\Routing\Route
+     */
     public function get(string $route, $options): Route
     {
         return $this->addRoute('GET', $route, $options);
     }
 
+    /**
+     * Fügt neue POST Route hinzu
+     *
+     * @param string       $route   URI
+     * @param array|string $options Optionen
+     *
+     * @return \App\SparkPlug\Routing\Route
+     */
     public function post(string $route, $options): Route
     {
         return $this->addRoute('POST', $route, $options);
     }
 
+    /**
+     * @param string $method
+     * @param string $route
+     * @param        $options
+     *
+     * @return \App\SparkPlug\Routing\Route
+     */
     private function addRoute(string $method, string $route, $options): Route
     {
         $route = new Route($route, $options);
