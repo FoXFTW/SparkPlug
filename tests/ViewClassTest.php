@@ -37,7 +37,7 @@ class ViewClassTest extends TestCase
      */
     public function testLoadViewWithTemplate()
     {
-        $view = new View('user.login');
+        $view = new View('user.auth.login');
         $this->assertContains('html', $view->getContent());
     }
 
@@ -58,7 +58,7 @@ class ViewClassTest extends TestCase
      */
     public function testRenderRoutes()
     {
-        $view = new View('user.login');
+        $view = new View('user.auth.login');
         $this->assertContains('@route(\'register\'', $view->getRawContent());
         $this->assertContains('/register', $view->getContent());
     }
