@@ -8,11 +8,7 @@
 
 namespace App\Controllers;
 
-
-use App\SparkPlug\Response\ViewResponse;
-use App\SparkPlug\Views\RawView;
 use App\SparkPlug\Views\View;
-use App\SparkPlug\Views\ViewInterface;
 
 class PageController extends AbstractBaseController
 {
