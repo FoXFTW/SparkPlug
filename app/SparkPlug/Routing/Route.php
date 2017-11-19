@@ -18,7 +18,7 @@ use App\SparkPlug\Routing\Exceptions\MissingActionException;
 class Route
 {
     /** @var string Name der Route */
-    private $name = '<<NameLess>>';
+    private $name = '<<Nameless>>';
     /** @var string Name des Controllers */
     private $controller;
     /** @var string Methode des Controllers */

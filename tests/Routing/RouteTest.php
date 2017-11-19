@@ -28,7 +28,7 @@ class RouteTest extends TestCase
      */
     public function testGetNameWithoutName()
     {
-        $this->assertEquals(null, $this->route->getName());
+        $this->assertEquals('<<Nameless>>', $this->route->getName());
     }
 
     /**
