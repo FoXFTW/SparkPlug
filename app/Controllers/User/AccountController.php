@@ -7,7 +7,7 @@
 
 namespace App\Controllers\User;
 
-use App\Controllers\AbstractBaseController;
+use App\SparkPlug\Controllers\AbstractController as Controller;
 use App\SparkPlug\Views\View;
 
 /**
@@ -16,25 +16,15 @@ use App\SparkPlug\Views\View;
  *
  * @package App\Controllers\User
  */
-class AccountController extends AbstractBaseController
+class AccountController extends Controller
 {
     /**
-     * Gibt Login View zurück
+     * Gibt Profil-View zurück
      *
      * @return \App\SparkPlug\Views\View
      */
-    public function showLoginView()
+    public function showProfileView()
     {
-        return new View('user.login');
-    }
-
-    /**
-     * Gibt Registrierungs View zurück
-     *
-     * @return \App\SparkPlug\Views\View
-     */
-    public function showRegisterView()
-    {
-        return new View('user.register');
+        return new View('user.profile');
     }
 }

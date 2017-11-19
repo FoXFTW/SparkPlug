@@ -5,7 +5,7 @@
  * Time: 20:35
  */
 
-namespace App\Controllers;
+namespace App\SparkPlug\Controllers;
 
 use App\SparkPlug\Request\RequestInterface;
 
@@ -14,7 +14,7 @@ use App\SparkPlug\Request\RequestInterface;
  *
  * @package App\Controllers
  */
-abstract class AbstractBaseController
+abstract class AbstractController
 {
     /** @var  \App\SparkPlug\Request\RequestInterface */
     private $request;

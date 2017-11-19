@@ -7,14 +7,24 @@
 
 namespace App\Controllers\User\Auth;
 
-use App\Controllers\AbstractBaseController;
+use App\SparkPlug\Controllers\AbstractController as Controller;
+use App\SparkPlug\Views\View;
+use App\SparkPlug\Views\ViewInterface;
 
 /**
  * Class RegisterController
  *
  * @package App\Controllers\User\Auth
  */
-class RegisterController extends AbstractBaseController
+class RegisterController extends Controller
 {
-
+    /**
+     * Register View
+     *
+     * @return \App\SparkPlug\Views\ViewInterface
+     */
+    public function showRegisterView(): ViewInterface
+    {
+        return new View('user.auth.register');
+    }
 }

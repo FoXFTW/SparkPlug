@@ -99,7 +99,7 @@ class Application
             return new View('errors.404', 404);
         }
 
-        /** @var \App\Controllers\AbstractBaseController $controller */
+        /** @var \App\SparkPlug\Controllers\AbstractController $controller */
         $controller = $this->make($route->getController());
         $controller->setRequest($request);
 
