@@ -4,7 +4,8 @@ require __DIR__.'/../vendor/autoload.php';
 
 set_exception_handler([Handler::class, "handleException"]);
 
-$app = require __DIR__.'/../config/app.php';
+/** @var \App\SparkPlug\Application $app */
+$app = require __DIR__.'/../bootstrap/app.php';
 
 $response = $app->handle(Request::capture());
 

@@ -4,7 +4,15 @@
  */
 $app = new \App\SparkPlug\Application(realpath(__DIR__.'/../'));
 
+/**
+ * Declare Singletons
+ */
 $app->singleton(\App\SparkPlug\Routing\Router::class);
+$app->singleton(\App\SparkPlug\Config::class);
+
+/**
+ * Load Routes
+ */
 $app->loadRoutes();
 
 return $app;
