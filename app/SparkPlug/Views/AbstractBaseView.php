@@ -13,7 +13,7 @@ use App\SparkPlug\Response\ResponseInterface;
 /**
  * Class AbstractBaseView
  *
- * @package app\SparkPlug\Views
+ * @package App\SparkPlug\Views
  */
 abstract class AbstractBaseView implements ViewInterface, ResponseInterface
 {
