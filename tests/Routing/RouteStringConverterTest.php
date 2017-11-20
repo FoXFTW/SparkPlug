@@ -9,7 +9,6 @@ namespace App\Tests;
 
 use App\SparkPlug\Routing\Router;
 use App\SparkPlug\Routing\RouteStringConverter;
-use PHPUnit\Framework\TestCase;
 
 class RouteStringConverterTest extends TestCase
 {
@@ -41,12 +40,10 @@ class RouteStringConverterTest extends TestCase
 
     protected function setUp()
     {
-        $app = require __DIR__.'/../../config/app.php';
+        parent::setUp();
         $this->router = app()->make(Router::class, true);
         $this->router->get('/index', 'IndexController@test');
         $this->router->get('/user/profile', 'UserController@test');
         $this->router->get('/user/[?]', 'UserController@test');
-
-        parent::setUp();
     }
 }
