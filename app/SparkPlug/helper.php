@@ -62,3 +62,17 @@ if (!function_exists('base_path')) {
         return app()->getBasePath()."/{$path}";
     }
 }
+
+if (!function_exists('database_path')) {
+    /**
+     * Gibt angegebenen Pfad mit Basispfad zurück
+     *
+     * @param string $path
+     *
+     * @return string
+     */
+    function database_path(string $path)
+    {
+        return app()->getBasePath()."/storage/database/{$path}";
+    }
+}

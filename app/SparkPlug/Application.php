@@ -80,7 +80,7 @@ class Application
      * @return mixed
      * @throws \App\SparkPlug\Exceptions\ClassNotFoundException
      */
-    public function make(string $className, bool $new = false): object
+    public function make(string $className, bool $new = false)
     {
         $this->checkIfClassExist($className);
 
@@ -101,7 +101,7 @@ class Application
      *
      * @return object
      */
-    public function makeWith(string $className, array $args, bool $new = false): object
+    public function makeWith(string $className, array $args, bool $new = false)
     {
         $this->checkIfClassExist($className);
 
