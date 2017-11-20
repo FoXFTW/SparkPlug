@@ -7,6 +7,8 @@
 
 namespace App\SparkPlug\Exceptions;
 
+use App\SparkPlug\Routing\Exceptions\RouteNotFoundException;
+use App\SparkPlug\Views\View;
 use Throwable;
 
 /**
@@ -39,8 +41,15 @@ class Handler
         $class = get_class($e);
 
         switch ($class) {
+            case RouteNotFoundException::class:
+                $view = new View('errors.404', 404);
+                $view->send();
+                break;
+
             default:
-                self::convertExceptionToHtml($e);
+                $view = new View('errors.500', 500);
+                $view->setVars(['error' => self::convertExceptionToHtml($e)]);
+                $view->send();
                 break;
         }
     }
@@ -49,14 +58,16 @@ class Handler
      * Rendered eine gegebene Exception zu HTML
      *
      * @param \Throwable $e zu verarbeitende Exception
+     *
+     * @return string
      */
-    private static function convertExceptionToHtml(Throwable $e): void
+    private static function convertExceptionToHtml(Throwable $e): string
     {
         $content = "<h1>Exception: ".get_class($e)."</h1>".
             "<h3>Message:</h3>".htmlentities($e->getMessage()).
             "<h3>Stack trace:</h3>".
             "<pre>{$e->getTraceAsString()}</pre>";
 
-        echo $content;
+        return $content;
     }
 }

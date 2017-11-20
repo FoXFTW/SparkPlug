@@ -92,12 +92,8 @@ class Application
         /** @var \App\SparkPlug\Routing\Router $router */
         $router = $this->make(\App\SparkPlug\Routing\Router::class);
 
-        try {
-            /** @var \App\SparkPlug\Routing\Route $route */
-            $route = $router->match($request);
-        } catch (RouteNotFoundException $e) {
-            return new View('errors.404', 404);
-        }
+        /** @var \App\SparkPlug\Routing\Route $route */
+        $route = $router->match($request);
 
         /** @var \App\SparkPlug\Controllers\AbstractController $controller */
         $controller = $this->make($route->getController());
