@@ -31,3 +31,34 @@ if (!function_exists('app')) {
         return \App\SparkPlug\Application::getInstance();
     }
 }
+
+if (!function_exists('config')) {
+    /**
+     * Durchsucht Config nach gegebenem Key
+     *
+     * @param string $key
+     *
+     * @return array|bool|mixed
+     */
+    function config(string $key)
+    {
+        /** @var \App\SparkPlug\Config $config */
+        $config = app()->make(\App\SparkPlug\Config::class);
+
+        return $config->get($key);
+    }
+}
+
+if (!function_exists('base_path')) {
+    /**
+     * Gibt angegebenen Pfad mit Basispfad zurück
+     *
+     * @param string $path
+     *
+     * @return string
+     */
+    function base_path(string $path)
+    {
+        return app()->getBasePath()."/{$path}";
+    }
+}

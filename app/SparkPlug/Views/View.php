@@ -19,7 +19,6 @@ use App\SparkPlug\Views\Exceptions\ViewNotFoundException;
 class View extends AbstractBaseView
 {
     const TEMPLATE_EXTENSION = '.tmplt.php';
-    const TEMPLATE_PATH = '/resources/views/';
 
     /** @var string Name der Datei ohne Endung */
     private $name;
@@ -42,7 +41,7 @@ class View extends AbstractBaseView
     {
         $this->name = str_replace('.', DIRECTORY_SEPARATOR, $name).static::TEMPLATE_EXTENSION;
 
-        if (!is_file(app()->getBasePath().static::TEMPLATE_PATH.$this->name)) {
+        if (!is_file(config('view.path')."/{$this->name}")) {
             throw new ViewNotFoundException("View {$this->name} not found!");
         }
 
@@ -88,7 +87,7 @@ class View extends AbstractBaseView
         if (is_array($this->variables)) {
             extract($this->variables);
         }
-        include app()->getBasePath().static::TEMPLATE_PATH.$this->name;
+        include config('view.path')."/{$this->name}";
 
         return ob_get_clean();
     }

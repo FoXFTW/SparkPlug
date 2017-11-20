@@ -15,4 +15,12 @@ $app->singleton(\App\SparkPlug\Config::class);
  */
 $app->loadRoutes();
 
+/**
+ * Set Default Timezone based on config
+ */
+if (!date_default_timezone_set(config('app.timezone'))) {
+    // Fallback if Config is invalid
+    date_default_timezone_set(DateTimeZone::listIdentifiers(DateTimeZone::UTC)[0]);
+}
+
 return $app;
