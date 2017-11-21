@@ -52,4 +52,12 @@ class RouteStringConverter
 
         return static::REGEX_START.$route.static::REGEX_END;
     }
+
+    public static function cleanRoute(Route $route): string
+    {
+        $route = $route->getRoute();
+        $route = str_replace(static::CONVERSION_DICTIONARY_FROM, '', $route);
+
+        return $route;
+    }
 }

@@ -8,6 +8,7 @@
 namespace App\SparkPlug\Views;
 
 use App\SparkPlug\Routing\Router;
+use App\SparkPlug\Routing\RouteStringConverter;
 use App\SparkPlug\Views\Exceptions\ViewNotFoundException;
 
 /**
@@ -32,7 +33,7 @@ class View extends AbstractBaseView
     /**
      * View constructor.
      *
-     * @param string $name     Name der Datei in dot Notation
+     * @param string $name Name der Datei in dot Notation
      * @param int    $httpCode HTTP Status Code
      *
      * @throws \App\SparkPlug\Views\Exceptions\ViewNotFoundException
@@ -114,11 +115,9 @@ class View extends AbstractBaseView
         $template = $template->getContent();
         $sets = $this->getSetsFromView();
 
-
         foreach ($sets as $key => $value) {
             $template = str_replace("@var('{$key}')", $value, $template);
         }
-
 
         $this->renderedView = $template;
     }
@@ -126,13 +125,23 @@ class View extends AbstractBaseView
     private function renderRoutes(): void
     {
         $routeNames = $this->getRoutesFromView();
+        $routeWithArgs = $this->getRoutesWithArgsFromView();
+
+        /** @var Router $router */
+        $router = app()->make(Router::class);
 
         foreach ($routeNames as $routeName) {
-            /** @var Router $router */
-            $router = app()->make(Router::class);
             $route = $router->findByName($routeName);
-
             $this->rawContent = str_replace("@route('{$routeName}')", $route->getRoute(), $this->rawContent);
+        }
+
+        foreach ($routeWithArgs as $routeName => $arg) {
+            $route = $router->findByName($routeName);
+            $this->rawContent = preg_replace(
+                "/@route\(\'{$routeName}\',\s*?\'?{$arg}\'?\)/",
+                RouteStringConverter::cleanRoute($route).$arg,
+                $this->rawContent
+            );
         }
     }
 
@@ -181,6 +190,17 @@ class View extends AbstractBaseView
 
         if (count($matches) === 2) {
             return $matches[1];
+        }
+
+        return [];
+    }
+
+    private function getRoutesWithArgsFromView(): array
+    {
+        preg_match_all("/@route\(\'([\w-]+)\',\s*?\'?([\w-]+)\'?\)/", $this->rawContent, $matches);
+
+        if (count($matches) === 3) {
+            return array_combine($matches[1], $matches[2]);
         }
 
         return [];
