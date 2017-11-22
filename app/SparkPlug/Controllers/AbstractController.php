@@ -12,12 +12,12 @@ use App\SparkPlug\Request\RequestInterface;
 /**
  * Class AbstractBaseController
  *
- * @package App\Controllers
+ * @package App\SparkPlug\Controllers
  */
 abstract class AbstractController
 {
     /** @var  \App\SparkPlug\Request\RequestInterface */
-    private $request;
+    protected $request;
 
     /**
      * Speichert gegebenen Request in Controller
