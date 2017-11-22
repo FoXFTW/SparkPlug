@@ -18,7 +18,7 @@ use App\SparkPlug\Response\ResponseInterface;
 abstract class AbstractBaseView implements ViewInterface, ResponseInterface
 {
     /** @var int HTTP Status Code */
-    protected $httpCode;
+    protected $httpCode = 200;
 
     /**
      * @param int $code

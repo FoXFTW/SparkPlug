@@ -2,6 +2,11 @@
 
 return [
     /**
+     * APP Url
+     */
+    'url' => 'http://localhost',
+
+    /**
      * True wenn Exception-Details mit ausgegeben werden sollen
      */
     'debug' => true,
@@ -15,4 +20,9 @@ return [
      * Log-Level des Loggers
      */
     'log_level' => 'debug',
+
+    /**
+     * Session Prefix
+     */
+    'session_prefix' => 'webshop',
 ];

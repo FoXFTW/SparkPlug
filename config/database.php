@@ -8,7 +8,7 @@ return [
     'connections' => [
         'sqlite' => [
             'driver' => 'sqlite',
-            'database' => '',
+            'database' => database_path('app.sqlite'),
             'prefix' => '',
         ],
     ],

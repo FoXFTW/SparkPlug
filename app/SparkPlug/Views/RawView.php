@@ -14,7 +14,7 @@ namespace App\SparkPlug\Views;
  */
 class RawView extends AbstractBaseView implements ViewInterface
 {
-    private $content;
+    private $content = '';
 
     /**
      * @param string $content  An den Browser sendbarer Inhalt

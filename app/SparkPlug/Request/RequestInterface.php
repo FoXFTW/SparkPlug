@@ -52,4 +52,11 @@ interface RequestInterface
      * @return mixed
      */
     public function get(string $key);
+
+    /**
+     * Gibt alle GET/POST Variablen als Array zurück
+     *
+     * @return array
+     */
+    public function all(): array;
 }

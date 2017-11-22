@@ -24,17 +24,26 @@ class SqliteDB implements DBAccessInterface
     private $db;
     private $dbFile;
 
-    public function __construct(string $database, array $options = [])
+    /**
+     * SqliteDB constructor.
+     *
+     * @throws \App\SparkPlug\Database\Exceptions\ConnectionException
+     * @throws \App\SparkPlug\Database\Exceptions\DatabaseNotFoundException
+     * @throws \App\SparkPlug\Exceptions\MissingPHPExtensionException
+     */
+    public function __construct()
     {
-        if (!extension_loaded('php_pdo_sqlite')) {
+        $database = config('database.connections.sqlite.database');
+
+        if (!extension_loaded('pdo_sqlite')) {
             throw new MissingPHPExtensionException('SQLite Database needs the php_pdo_sqlite Extension!');
         }
 
-        if (!file_exists(database_path($database))) {
+        if (!file_exists($database)) {
             throw new DatabaseNotFoundException("Database {$database} not found in ".database_path(''));
         }
 
-        $this->dbFile = database_path($database);
+        $this->dbFile = $database;
 
         try {
             $this->db = new PDO("sqlite:{$this->dbFile}");

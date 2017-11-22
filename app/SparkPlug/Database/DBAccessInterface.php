@@ -11,8 +11,6 @@ use PDO;
 
 interface DBAccessInterface
 {
-    public function __construct(string $database, array $options = []);
-
     /**
      * @return \PDO The created DB Object
      */

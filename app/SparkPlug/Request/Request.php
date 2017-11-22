@@ -119,4 +119,14 @@ class Request implements RequestInterface
 
         return false;
     }
+
+    /**
+     * Gibt alle POST und GET Variablen zurück
+     *
+     * @return array
+     */
+    public function all(): array
+    {
+        return array_merge($this->getVars, $this->postVars);
+    }
 }

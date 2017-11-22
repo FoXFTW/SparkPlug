@@ -1,12 +1,12 @@
-<?php declare(strict_types = 1); use App\SparkPlug\Request\Request, \App\SparkPlug\Exceptions\Handler;
+<?php declare(strict_types = 1);
 
 require __DIR__.'/../vendor/autoload.php';
 
-set_exception_handler([Handler::class, "handleException"]);
+set_exception_handler([\App\SparkPlug\Exceptions\Handler::class, "handleException"]);
 
 /** @var \App\SparkPlug\Application $app */
 $app = require __DIR__.'/../bootstrap/app.php';
 
-$response = $app->handle(Request::capture());
+$response = $app->handle(\App\SparkPlug\Request\Request::capture());
 
 $response->send();

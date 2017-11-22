@@ -57,7 +57,7 @@ class ViewClassTest extends TestCase
     public function testRenderRoutes()
     {
         $view = new View('user.auth.login');
-        $this->assertContains('@route(\'register\'', $view->getRawContent());
+        $this->assertContains('@route(\'register_form\'', $view->getRawContent());
         $this->assertContains('/register', $view->getContent());
     }
 

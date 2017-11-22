@@ -8,6 +8,7 @@
 namespace App\SparkPlug\Exceptions;
 
 use App\SparkPlug\Routing\Exceptions\RouteNotFoundException;
+use App\SparkPlug\Validation\Exceptions\ValidationException;
 use App\SparkPlug\Views\View;
 use Throwable;
 
@@ -35,6 +36,8 @@ class Handler
      * Führt anhand des Exceptiontyps verschiedene Aktionen aus
      *
      * @param \Throwable $e Zu verarbeitende Exception
+     *
+     * @return void|mixed
      */
     public static function handleException(Throwable $e)
     {
@@ -45,6 +48,10 @@ class Handler
                 $view = new View('errors.404', 404);
                 $view->send();
                 break;
+
+            case ValidationException::class:
+                session_set('error', $e->getMessage());
+                return back();
 
             default:
                 $view = new View('errors.500', 500);

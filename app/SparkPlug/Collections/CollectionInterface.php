@@ -5,13 +5,13 @@
  * Time: 17:38
  */
 
-namespace App\SparkPlug\Interfaces;
+namespace App\SparkPlug\Collections;
 
 /**
  * Interface CollectionInterface
  * Generisches Interface für Collections
  *
- * @package App\SparkPlug\Interfaces
+ * @package App\SparkPlug\Collections
  */
 interface CollectionInterface
 {
