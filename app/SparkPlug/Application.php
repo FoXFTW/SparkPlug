@@ -184,7 +184,9 @@ class Application
     {
         $session = $this->make(Session::class);
         unset($session->error);
-        session_set('previous_page', $this->request->getUri());
+        if (!is_null($this->request)) {
+            session_set('previous_page', $this->request->getUri());
+        }
     }
 
     private function checkClassNameForBindings(string $className): string
