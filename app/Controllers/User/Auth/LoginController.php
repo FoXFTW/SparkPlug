@@ -53,9 +53,8 @@ class LoginController extends Controller
             $this->request->all()
         )) {
             /** @var Session $session */
-            $session = app()->make(Session::class);
-            $session->error = 'Benutzername oder Passwort falsch!';
-            $session->username = $this->request->get('username');
+            session_set('error', ['Benutzername oder Passwort falsch!']);
+            session_set('username', $this->request->get('username'));
 
             return back();
         }

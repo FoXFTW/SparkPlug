@@ -10,3 +10,5 @@ $app = require __DIR__.'/../bootstrap/app.php';
 $response = $app->handle(\App\SparkPlug\Request\Request::capture());
 
 $response->send();
+
+$app->terminate();

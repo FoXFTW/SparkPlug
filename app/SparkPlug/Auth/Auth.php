@@ -38,7 +38,7 @@ class Auth
             throw new \InvalidArgumentException('username or password not set');
         }
 
-        $statement = $this->db->prepare('SELECT * FROM users WHERE username = ?');
+        $statement = $this->db->prepare('SELECT * FROM users WHERE username LIKE ? LIMIT 1');
         if (!$statement->execute([$credentials['username']])) {
             return false;
         }

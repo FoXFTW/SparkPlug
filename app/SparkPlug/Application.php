@@ -180,7 +180,10 @@ class Application
         }
     }
 
-    public function __destruct()
+    /**
+     * Löscht Error aus Session und setzt zuletzt aufgerufene Seite
+     */
+    public function terminate(): void
     {
         $session = $this->make(Session::class);
         unset($session->error);

@@ -132,14 +132,14 @@ class View extends AbstractBaseView
 
         foreach ($routeNames as $routeName) {
             $route = $router->findByName($routeName);
-            $this->rawContent = str_replace("@route('{$routeName}')", $route->getRoute(), $this->rawContent);
+            $this->rawContent = str_replace("@route('{$routeName}')", config('app.url').$route->getRoute(), $this->rawContent);
         }
 
         foreach ($routeWithArgs as $routeName => $arg) {
             $route = $router->findByName($routeName);
             $this->rawContent = preg_replace(
                 "/@route\(\'{$routeName}\',\s*?\'?{$arg}\'?\)/",
-                RouteStringConverter::cleanRoute($route).$arg,
+                config('app.url').RouteStringConverter::cleanRoute($route).$arg,
                 $this->rawContent
             );
         }

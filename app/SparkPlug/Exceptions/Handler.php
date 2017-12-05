@@ -50,7 +50,7 @@ class Handler
                 break;
 
             case ValidationException::class:
-                session_set('error', $e->getMessage());
+                session_set('error', $e->getErrors());
                 return back();
 
             default:
