@@ -25,6 +25,8 @@ class Request implements RequestInterface
     private $getVars = [];
     /** @var array POST Vars des Request */
     private $postVars = [];
+    /** @var array Files */
+    private $files = [];
 
     /**
      * Request constructor.
@@ -37,6 +39,7 @@ class Request implements RequestInterface
         $this->requestMethod = $data['method'];
         $this->getVars = $data['get'];
         $this->postVars = $data['post'];
+        $this->files = $data['files'];
     }
 
     /**
@@ -51,6 +54,7 @@ class Request implements RequestInterface
             'method' => $_SERVER['REQUEST_METHOD'],
             'post'   => [],
             'get'    => [],
+            'files'   => [],
         ];
 
         foreach ($_POST as $key => $value) {
@@ -59,6 +63,10 @@ class Request implements RequestInterface
 
         foreach ($_GET as $key => $value) {
             $data['get'][$key] = $value;
+        }
+
+        foreach ($_FILES as $key => $value) {
+            $data['files'][$key] = $value;
         }
 
         return static::createFromArray($data);
@@ -127,6 +135,6 @@ class Request implements RequestInterface
      */
     public function all(): array
     {
-        return array_merge($this->getVars, $this->postVars);
+        return array_merge($this->getVars, $this->postVars, $this->files);
     }
 }
