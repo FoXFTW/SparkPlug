@@ -180,8 +180,12 @@ class Validation
 
     private function testConfirmed()
     {
-        if (!isset($this->data["{$this->currentKey}_confirmation"]) || $this->data["{$this->currentKey}_confirmation"] !== $this->data[$this->currentKey]) {
+        if (!isset($this->data["{$this->currentKey}_confirmation"])) {
             $this->failedRules[] = "Feld {$this->currentKey} muss bestätigt werden";
+        }
+
+        if ($this->data["{$this->currentKey}_confirmation"] !== $this->data[$this->currentKey]) {
+            $this->failedRules[] = "Feld {$this->currentKey} stimmt nicht mit Bestätigung überein";
         }
     }
 }
