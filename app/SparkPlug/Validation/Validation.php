@@ -87,9 +87,16 @@ class Validation
         return array_intersect_key($data, $rules);
     }
 
+    private function testString()
+    {
+        if (!is_string($this->data[$this->currentKey])) {
+            $this->failedRules[] = "Feld {$this->currentKey} ist kein String";
+        }
+    }
+
     private function testBoolean()
     {
-        if (!filter_var($this->data[$this->currentKey], FILTER_VALIDATE_BOOLEAN)) {
+        if (is_null(filter_var($this->data[$this->currentKey], FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE))) {
             $this->failedRules[] = "Feld {$this->currentKey} ist kein Boolean";
         }
     }
@@ -182,10 +189,12 @@ class Validation
     {
         if (!isset($this->data["{$this->currentKey}_confirmation"])) {
             $this->failedRules[] = "Feld {$this->currentKey} muss bestätigt werden";
+            return;
         }
 
         if ($this->data["{$this->currentKey}_confirmation"] !== $this->data[$this->currentKey]) {
             $this->failedRules[] = "Feld {$this->currentKey} stimmt nicht mit Bestätigung überein";
+            return;
         }
     }
 }
