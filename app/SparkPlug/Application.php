@@ -132,6 +132,7 @@ class Application
      */
     public function handle(Request $request)
     {
+        $this->resolvedSingletons[Request::class] = $request;
         $this->request = $request;
         $this->checkCsrfToken();
 

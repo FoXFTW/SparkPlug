@@ -155,17 +155,17 @@ abstract class AbstractBaseModel
             return false;
         }
 
-        $this->query = $this->db->getDB()->prepare($this->assembleQueryString())->execute();
+        $this->query = $this->db->getDB()->prepare($this->assembleQueryString());
 
         $this->query->execute();
 
         $result = $this->query->fetch();
 
         if (!empty($result)) {
-            return $this->createCollectionFromResult($this->query->fetchAll());
+            return $this->createCollectionFromResult($this->query->fetchAll(config('database.fetch'),\PDO::FETCH_ORI_NEXT, 0));
         }
 
-        return false;
+        return new ModelCollection();
     }
 
     public function __toString()
@@ -196,8 +196,6 @@ abstract class AbstractBaseModel
         }
 
         $string = "{$p['type']} {$p['what']} FROM {$this->table} {$join} {$where}";
-
-        echo $string;
 
         return $string;
     }
