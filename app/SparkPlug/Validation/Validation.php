@@ -12,6 +12,12 @@ use App\SparkPlug\Request\Request;
 use App\SparkPlug\Validation\Exceptions\ValidationException;
 use InvalidArgumentException;
 
+/**
+ * Class Validation
+ * Validiert Eingaben
+ *
+ * @package App\SparkPlug\Validation
+ */
 class Validation
 {
     private const TESTS = [
@@ -73,7 +79,10 @@ class Validation
                         throw new InvalidArgumentException("Test {$rule} not in (".implode(static::TESTS)."}");
                     }
 
-                    call_user_func_array([$this, 'test'.ucfirst($rule)], $options);
+                    if (!call_user_func_array([$this, 'test'.ucfirst($rule)], $options)) {
+                        // Flash data into session on fail
+                        session_set($name, $data[$name]);
+                    }
                 }
             } else {
                 $this->failedRules[] = "Feld {$name} muss ausgefüllt sein";
@@ -87,48 +96,110 @@ class Validation
         return array_intersect_key($data, $rules);
     }
 
+    /**
+     * Test ob Data ein String ist
+     *
+     * @return bool
+     */
     private function testString()
     {
         if (!is_string($this->data[$this->currentKey])) {
             $this->failedRules[] = "Feld {$this->currentKey} ist kein String";
+
+            return false;
         }
+
+        return true;
     }
 
+    /**
+     * Test ob Data ein Boolean ist
+     *
+     * @return bool
+     */
     private function testBoolean()
     {
         if (is_null(filter_var($this->data[$this->currentKey], FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE))) {
             $this->failedRules[] = "Feld {$this->currentKey} ist kein Boolean";
+
+            return false;
         }
+
+        return true;
     }
 
+    /**
+     * Test ob Data eine Email ist
+     *
+     * @return bool
+     */
     private function testEmail()
     {
         if (!filter_var($this->data[$this->currentKey], FILTER_VALIDATE_EMAIL)) {
             $this->failedRules[] = "Feld {$this->currentKey} ist keine EMail Adresse";
+
+            return false;
         }
+
+        return true;
     }
 
+    /**
+     * Test of Data ein Int ist
+     *
+     * @return bool
+     */
     private function testInt()
     {
         if (!filter_var($this->data[$this->currentKey], FILTER_VALIDATE_INT)) {
             $this->failedRules[] = "Feld {$this->currentKey} ist keine Ganzzahl";
+
+            return false;
         }
+
+        return true;
     }
+
+    /**
+     * Test ob Data ein Float ist
+     *
+     * @return bool
+     */
 
     private function testFloat()
     {
         if (!filter_var($this->data[$this->currentKey], FILTER_VALIDATE_FLOAT)) {
             $this->failedRules[] = "Feld {$this->currentKey} ist keine Gleitkommazahl";
+
+            return false;
         }
+
+        return true;
     }
 
+    /**
+     * Test ob Data eine URL ist
+     *
+     * @return bool
+     */
     private function testUrl()
     {
         if (!filter_var($this->data[$this->currentKey], FILTER_VALIDATE_URL)) {
             $this->failedRules[] = "Feld {$this->currentKey} ist keine URL";
+
+            return false;
         }
+
+        return true;
     }
 
+    /**
+     * Test ob Data in angegebener Tabelle nicht existiert
+     *
+     * @param string $table
+     *
+     * @return bool
+     */
     private function testUnique(string $table)
     {
         /** @var DBAccessInterface $db */
@@ -136,14 +207,23 @@ class Validation
         /** @var \PDO $db */
         $db = $db->getDB();
 
-        $statement = $db->prepare("SELECT * FROM {$table} WHERE {$this->currentKey} = ?");
+        $statement = $db->prepare("SELECT * FROM {$table} WHERE {$this->currentKey} LIKE ?");
         $statement->execute([$this->data[$this->currentKey]]);
 
         if (!empty($statement->fetchAll())) {
             $this->failedRules[] = "{$this->currentKey} bereits vergeben";
+
+            return false;
         }
+
+        return true;
     }
 
+    /**
+     * Test ob Data ein valider Benutzername ist
+     *
+     * @return bool
+     */
     private function testUsername()
     {
         if (!filter_var(
@@ -152,9 +232,20 @@ class Validation
             ["options" => ["regexp" => "/^[\w-_]+$/"]]
         )) {
             $this->failedRules[] = "Benutername darf nur Alphanumerische Zeichen sowie -_ enthalten";
+
+            return false;
         }
+
+        return true;
     }
 
+    /**
+     * Test ob Data mindestens x groß ist
+     *
+     * @param $min
+     *
+     * @return bool
+     */
     private function testMin($min)
     {
         if (is_numeric($this->data[$this->currentKey])) {
@@ -167,9 +258,20 @@ class Validation
 
         if ($pass === false) {
             $this->failedRules[] = "Feld {$this->currentKey} muss {$text}";
+
+            return false;
         }
+
+        return true;
     }
 
+    /**
+     * Test ob data max x groß ist
+     *
+     * @param $max
+     *
+     * @return bool
+     */
     private function testMax($max)
     {
         if (is_numeric($this->data[$this->currentKey])) {
@@ -182,19 +284,30 @@ class Validation
 
         if ($pass === false) {
             $this->failedRules[] = "Feld {$this->currentKey} muss {$text}";
+
+            return false;
         }
+
+        return true;
     }
 
+    /**
+     * Test ob Bestätigung in Data vorhanden ist
+     *
+     * @return bool
+     */
     private function testConfirmed()
     {
         if (!isset($this->data["{$this->currentKey}_confirmation"])) {
             $this->failedRules[] = "Feld {$this->currentKey} muss bestätigt werden";
-            return;
+            return false;
         }
 
         if ($this->data["{$this->currentKey}_confirmation"] !== $this->data[$this->currentKey]) {
             $this->failedRules[] = "Feld {$this->currentKey} stimmt nicht mit Bestätigung überein";
-            return;
+            return false;
         }
+
+        return true;
     }
 }
