@@ -63,7 +63,11 @@ abstract class AbstractBaseModel
         }
 
         if (is_array($options)) {
-            $this->attributes = $options;
+            foreach ($this->fillable as $value) {
+                if (isset($options[$value])) {
+                    $this->attributes[$value] = $options[$value];
+                }
+            }
         }
     }
 
