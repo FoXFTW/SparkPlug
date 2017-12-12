@@ -35,6 +35,9 @@ class Route
      *
      * @param string       $route   URI der Route
      * @param array|string $options Optionen der Route
+     *
+     * @throws \App\SparkPlug\Routing\Exceptions\InvalidActionException
+     * @throws \App\SparkPlug\Routing\Exceptions\MissingActionException
      */
     public function __construct(string $route, $options)
     {
