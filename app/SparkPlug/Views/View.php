@@ -53,6 +53,7 @@ class View extends AbstractBaseView
      * Gibt den gerenderten Inhalt des Views zurück
      *
      * @return string Rendered View
+     * @throws \App\SparkPlug\Routing\Exceptions\RouteNotFoundException
      */
     public function getContent(): string
     {
@@ -95,6 +96,7 @@ class View extends AbstractBaseView
 
     /**
      * Renders Templatesyntax into HTML
+     * @throws \App\SparkPlug\Routing\Exceptions\RouteNotFoundException
      */
     private function renderView(): void
     {
@@ -122,6 +124,9 @@ class View extends AbstractBaseView
         $this->renderedView = $template;
     }
 
+    /**
+     * @throws \App\SparkPlug\Routing\Exceptions\RouteNotFoundException
+     */
     private function renderRoutes(): void
     {
         $routeNames = $this->getRoutesFromView();

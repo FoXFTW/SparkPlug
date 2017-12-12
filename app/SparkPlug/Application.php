@@ -217,6 +217,7 @@ class Application
 
     /**
      * @throws \App\SparkPlug\Exceptions\TokenMissMatchException
+     * @throws \Exception
      */
     private function checkCsrfToken()
     {
