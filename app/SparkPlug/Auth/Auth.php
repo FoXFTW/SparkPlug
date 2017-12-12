@@ -11,6 +11,10 @@ use App\Models\User;
 use App\SparkPlug\Database\DBAccessInterface;
 use App\SparkPlug\Session;
 
+/**
+ * Class Auth
+ * @package App\SparkPlug\Auth
+ */
 class Auth
 {
     /** @var \PDO */
@@ -20,6 +24,11 @@ class Auth
     /** @var \App\Models\User */
     private $user;
 
+    /**
+     * Auth constructor.
+     *
+     * @param \App\SparkPlug\Database\DBAccessInterface $DBAccess
+     */
     public function __construct(DBAccessInterface $DBAccess)
     {
         $this->db = $DBAccess->getDB();
@@ -59,6 +68,9 @@ class Auth
         return true;
     }
 
+    /**
+     * @return \App\Models\User|null
+     */
     public function getUser(): ?User
     {
         return $this->user;

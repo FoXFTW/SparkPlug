@@ -140,6 +140,12 @@ if (!function_exists('login_check')) {
 }
 
 if (!function_exists('session_set')) {
+    /**
+     * Setzt einen Wert in der Session
+     *
+     * @param string $name
+     * @param mixed  $value
+     */
     function session_set(string $name, $value)
     {
         $session = app()->make(\App\SparkPlug\Session::class);
@@ -148,6 +154,13 @@ if (!function_exists('session_set')) {
 }
 
 if (!function_exists('session_get')) {
+    /**
+     * Holt einen Wert aus der Session
+     *
+     * @param string $name
+     *
+     * @return mixed
+     */
     function session_get(string $name)
     {
         $session = app()->make(\App\SparkPlug\Session::class);

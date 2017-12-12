@@ -18,13 +18,14 @@ class User extends Model
     ];
 
     protected $fillable = [
-        'name',
+        'username',
         'email',
     ];
 
     public function rias()
     {
         $rias = new Ria();
+
         return $rias->query()->where('user_id', '=', $this->user_id)->fetchAll();
     }
 }
