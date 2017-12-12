@@ -529,6 +529,118 @@ class ValidationClassTest extends TestCase
         );
     }
 
+    /**
+     * @throws \App\SparkPlug\Validation\Exceptions\ValidationException
+     * @covers \App\SparkPlug\Validation\Validation::testAlpha()
+     */
+    public function testAlpha()
+    {
+        $result = $this->validator->validate(
+            [
+                'data' => 'alpha',
+            ],
+            [
+                'data' => 'aBc',
+            ]
+        );
+        $this->assertArrayHasKey('data', $result);
+    }
+
+    /**
+     * @throws \App\SparkPlug\Validation\Exceptions\ValidationException
+     * @covers \App\SparkPlug\Validation\Validation::testAlpha()
+     */
+    public function testAlphaFail()
+    {
+        $this->expectException(ValidationException::class);
+        $this->validator->validate(
+            [
+                'data' => 'alpha',
+            ],
+            [
+                'data' => 'ab-',
+            ]
+        );
+    }
+
+    /**
+     * @throws \App\SparkPlug\Validation\Exceptions\ValidationException
+     * @covers \App\SparkPlug\Validation\Validation::testAlphaDash()
+     */
+    public function testAlphaDash()
+    {
+        $result = $this->validator->validate(
+            [
+                'data' => 'alpha_dash',
+                'data2' => 'alpha_dash',
+                'data3' => 'alpha_dash',
+                'data4' => 'alpha_dash',
+            ],
+            [
+                'data' => 'abc_-',
+                'data2' => 'abc',
+                'data3' => 'abc_',
+                'data4' => 'abc-',
+            ]
+        );
+        $this->assertArrayHasKey('data', $result);
+    }
+
+    /**
+     * @throws \App\SparkPlug\Validation\Exceptions\ValidationException
+     * @covers \App\SparkPlug\Validation\Validation::testAlphaDash()
+     */
+    public function testAlphaDashFail()
+    {
+        $this->expectException(ValidationException::class);
+        $this->validator->validate(
+            [
+                'data' => 'alpha_dash',
+            ],
+            [
+                'data' => '123',
+            ]
+        );
+    }
+
+    /**
+     * @throws \App\SparkPlug\Validation\Exceptions\ValidationException
+     * @covers \App\SparkPlug\Validation\Validation::testAlphaNum()
+     */
+    public function testAlphaNum()
+    {
+        $result = $this->validator->validate(
+            [
+                'data' => 'alpha_num',
+                'data2' => 'alpha_num',
+                'data3' => 'alpha_num',
+            ],
+            [
+                'data' => 'abc',
+                'data2' => '123',
+                'data3' => 'abc123',
+            ]
+        );
+        $this->assertArrayHasKey('data', $result);
+    }
+
+    /**
+     * @throws \App\SparkPlug\Validation\Exceptions\ValidationException
+     * @covers \App\SparkPlug\Validation\Validation::testAlphaNum()
+     */
+    public function testAlphaNumFail()
+    {
+        $this->expectException(ValidationException::class);
+        $this->validator->validate(
+            [
+                'data' => 'alpha_num',
+            ],
+            [
+                'data' => 'abc-<>',
+            ]
+        );
+    }
+
     protected function setUp()
     {
         parent::setUp();
