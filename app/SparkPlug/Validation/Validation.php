@@ -21,6 +21,9 @@ use InvalidArgumentException;
 class Validation
 {
     private const TESTS = [
+        'alpha',
+        'alpha_num',
+        'alpha_dash',
         'boolean',
         'email',
         'int',
@@ -79,7 +82,7 @@ class Validation
                         throw new InvalidArgumentException("Test {$rule} not in (".implode(static::TESTS)."}");
                     }
 
-                    if (!call_user_func_array([$this, 'test'.ucfirst($rule)], $options)) {
+                    if (!call_user_func_array([$this, 'test'.str_replace('_', '', ucwords($rule, '_'))], $options)) {
                         // Flash data into session on fail
                         session_set($name, $data[$name]);
                     }
@@ -300,11 +303,58 @@ class Validation
     {
         if (!isset($this->data["{$this->currentKey}_confirmation"])) {
             $this->failedRules[] = "Feld {$this->currentKey} muss bestätigt werden";
+
             return false;
         }
 
         if ($this->data["{$this->currentKey}_confirmation"] !== $this->data[$this->currentKey]) {
             $this->failedRules[] = "Feld {$this->currentKey} stimmt nicht mit Bestätigung überein";
+
+            return false;
+        }
+
+        return true;
+    }
+
+    private function testAlphaDash()
+    {
+        if (!filter_var(
+            $this->data[$this->currentKey],
+            FILTER_VALIDATE_REGEXP,
+            ["options" => ["regexp" => "/^[a-zA-Z-_]+$/"]]
+        )) {
+            $this->failedRules[] = "Feld {$this->currentKey} darf nur Alphabetische Zeichen sowie -_ enthalten";
+
+            return false;
+        }
+
+        return true;
+    }
+
+    private function testAlpha()
+    {
+        if (!filter_var(
+            $this->data[$this->currentKey],
+            FILTER_VALIDATE_REGEXP,
+            ["options" => ["regexp" => "/^[a-zA-Z]+$/"]]
+        )) {
+            $this->failedRules[] = "Feld {$this->currentKey} darf nur Alphabetische Zeichen enthalten";
+
+            return false;
+        }
+
+        return true;
+    }
+
+    private function testAlphaNum()
+    {
+        if (!filter_var(
+            $this->data[$this->currentKey],
+            FILTER_VALIDATE_REGEXP,
+            ["options" => ["regexp" => "/^[a-zA-Z0-9]+$/"]]
+        )) {
+            $this->failedRules[] = "Feld {$this->currentKey} darf nur Alphanumerische Zeichen enthalten";
+
             return false;
         }
 
