@@ -10,6 +10,10 @@ namespace App\SparkPlug\Models;
 use App\SparkPlug\Collections\AbstractBaseCollection as Collection;
 use InvalidArgumentException;
 
+/**
+ * Class ModelCollection
+ * @package App\SparkPlug\Models
+ */
 class ModelCollection extends Collection
 {
     /**
@@ -76,5 +80,4 @@ class ModelCollection extends Collection
 
         return false;
     }
-
 }

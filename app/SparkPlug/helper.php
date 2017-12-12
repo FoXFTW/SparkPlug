@@ -90,6 +90,11 @@ if (!function_exists('redirect')) {
 }
 
 if (!function_exists('back')) {
+    /**
+     * Erstellt einen Redirect auf die vorherige Seite
+     *
+     * @return mixed
+     */
     function back()
     {
         return app()->makeWith(\App\SparkPlug\Response\Redirect::class, [session_get('previous_page')])->send();
@@ -170,6 +175,12 @@ if (!function_exists('session_get')) {
 }
 
 if (!function_exists('csrf_token')) {
+    /**
+     * Holt CSRF Token aus Session oder generiert einen
+     *
+     * @return string
+     * @throws \Exception
+     */
     function csrf_token(): string
     {
         $token = session_get('csrf_token');

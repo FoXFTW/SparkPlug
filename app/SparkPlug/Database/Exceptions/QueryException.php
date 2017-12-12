@@ -9,6 +9,10 @@ namespace App\SparkPlug\Database\Exceptions;
 
 use Exception;
 
+/**
+ * Class QueryException
+ * @package App\SparkPlug\Database\Exceptions
+ */
 class QueryException extends Exception
 {
 

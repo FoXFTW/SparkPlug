@@ -7,7 +7,6 @@
 
 namespace App\SparkPlug\Models;
 
-use App\Models\User;
 use App\SparkPlug\Collections\CollectionInterface;
 use App\SparkPlug\Database\DBAccessInterface;
 use App\SparkPlug\Database\Exceptions\QueryException;
@@ -32,8 +31,8 @@ abstract class AbstractBaseModel
     /** @var  \PDOStatement */
     private $query;
     private $queryparams = [
-        'type' => 'SELECT',
-        'what' => '',
+        'type'  => 'SELECT',
+        'what'  => '',
         'where' => [],
         'joins' => [],
     ];
@@ -68,6 +67,13 @@ abstract class AbstractBaseModel
         }
     }
 
+    /**
+     * Magic Method um Wert aus Model zu holen
+     *
+     * @param string $name
+     *
+     * @return mixed|null
+     */
     public function __get($name)
     {
         if (isset($this->attributes[$name]) && !in_array($name, $this->hidden)) {
@@ -77,16 +83,28 @@ abstract class AbstractBaseModel
         return null;
     }
 
+    /**
+     * Set Wert von Attribut
+     *
+     * @param string $name
+     * @param mixed  $value
+     */
     public function __set($name, $value)
     {
         $this->attributes[$name] = $value;
     }
 
+    /**
+     * @return \App\SparkPlug\Collections\CollectionInterface|\App\SparkPlug\Models\ModelCollection|bool
+     */
     public function all()
     {
         return $this->query()->fetchAll();
     }
 
+    /**
+     * Speichert oder Updated das Model
+     */
     public function save()
     {
         if (!isset($this->attributes[$this->primary_key])) {
@@ -96,6 +114,11 @@ abstract class AbstractBaseModel
         }
     }
 
+    /**
+     * @param array $cols
+     *
+     * @return \App\SparkPlug\Models\AbstractBaseModel
+     */
     public function query($cols = []): AbstractBaseModel
     {
         if (empty($cols)) {
@@ -111,13 +134,26 @@ abstract class AbstractBaseModel
         return $this;
     }
 
-    public function where($col, $comparator, $value): AbstractBaseModel
+    /**
+     * @param string $col
+     * @param string $comparator
+     * @param mixed  $value
+     *
+     * @return \App\SparkPlug\Models\AbstractBaseModel
+     */
+    public function where(string $col, string $comparator, $value): AbstractBaseModel
     {
         $this->queryparams['where'][] = "{$col} {$comparator} {$value}";
 
         return $this;
     }
 
+    /**
+     * @param string $table
+     * @param string $side
+     *
+     * @return \App\SparkPlug\Models\AbstractBaseModel
+     */
     public function join(string $table, string $side = ''): AbstractBaseModel
     {
         if (in_array(strtolower($side), ['left', 'right'])) {
@@ -129,6 +165,11 @@ abstract class AbstractBaseModel
         return $this;
     }
 
+    /**
+     * Holt Wert aus Query
+     *
+     * @return bool|static
+     */
     public function fetch()
     {
         if (is_null($this->queryparams['what'])) {
@@ -148,7 +189,11 @@ abstract class AbstractBaseModel
         return false;
     }
 
-
+    /**
+     * Holt alle Werte aus Query
+     *
+     * @return \App\SparkPlug\Collections\CollectionInterface|\App\SparkPlug\Models\ModelCollection|bool
+     */
     public function fetchAll()
     {
         if (is_null($this->queryparams['what'])) {
@@ -162,12 +207,17 @@ abstract class AbstractBaseModel
         $result = $this->query->fetch();
 
         if (!empty($result)) {
-            return $this->createCollectionFromResult($this->query->fetchAll(config('database.fetch'),\PDO::FETCH_ORI_NEXT, 0));
+            return $this->createCollectionFromResult(
+                $this->query->fetchAll(config('database.fetch'), \PDO::FETCH_ORI_NEXT, 0)
+            );
         }
 
         return new ModelCollection();
     }
 
+    /**
+     * @inheritdoc
+     */
     public function __toString()
     {
         $return = "";
@@ -181,6 +231,9 @@ abstract class AbstractBaseModel
         return $return;
     }
 
+    /**
+     * @return string
+     */
     private function assembleQueryString(): string
     {
         $p = $this->queryparams;
@@ -200,6 +253,11 @@ abstract class AbstractBaseModel
         return $string;
     }
 
+    /**
+     * @param array $result
+     *
+     * @return \App\SparkPlug\Collections\CollectionInterface
+     */
     private function createCollectionFromResult(array $result): CollectionInterface
     {
         $collection = new ModelCollection();
@@ -248,11 +306,20 @@ abstract class AbstractBaseModel
         }
     }
 
+    /**
+     * @return array
+     */
     private function getFillableAttributes()
     {
         return array_intersect_key($this->attributes, array_flip($this->fillable));
     }
 
+    /**
+     * @param int $id
+     *
+     * @throws \App\SparkPlug\Database\Exceptions\QueryException
+     * @throws \App\SparkPlug\Models\Exceptions\ModelNotFoundException
+     */
     private function loadModelById(int $id)
     {
         /** @var \PDOStatement $statement */

@@ -163,11 +163,19 @@ class Route
         return "{$this->name}: {$this->controller}@{$this->method}";
     }
 
+    /**
+     * @throws \App\SparkPlug\Routing\Exceptions\InvalidActionException
+     * @throws \App\SparkPlug\Routing\Exceptions\MissingActionException
+     */
     private function parseOptions(): void
     {
         $this->parseAction();
     }
 
+    /**
+     * @throws \App\SparkPlug\Routing\Exceptions\InvalidActionException
+     * @throws \App\SparkPlug\Routing\Exceptions\MissingActionException
+     */
     private function parseAction(): void
     {
         if (!isset($this->rawOptions['action'])) {

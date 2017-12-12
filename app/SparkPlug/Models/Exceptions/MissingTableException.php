@@ -9,6 +9,12 @@ namespace App\SparkPlug\Models\Exceptions;
 
 use Exception;
 
+/**
+ * Class MissingTableException
+ * Thrown if Table is missing
+ *
+ * @package App\SparkPlug\Models\Exceptions
+ */
 class MissingTableException extends Exception
 {
 

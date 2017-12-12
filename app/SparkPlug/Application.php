@@ -50,6 +50,12 @@ class Application
         return static::$instance;
     }
 
+    /**
+     * Bindet ein Interface an eine Implementierung
+     *
+     * @param string $interface
+     * @param string $implementation
+     */
     public function bind(string $interface, string $implementation): void
     {
         $this->bindings[$interface] = $implementation;
@@ -193,6 +199,13 @@ class Application
         }
     }
 
+    /**
+     * Checkt ob für eine gegebene Klasse ein Binding besteht
+     *
+     * @param string $className
+     *
+     * @return string
+     */
     private function checkClassNameForBindings(string $className): string
     {
         if (isset($this->bindings[$className])) {

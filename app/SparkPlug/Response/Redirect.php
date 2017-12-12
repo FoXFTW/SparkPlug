@@ -7,11 +7,21 @@
 
 namespace App\SparkPlug\Response;
 
-
+/**
+ * Class Redirect
+ * Erstellt Redirect auf angegebene URL
+ *
+ * @package App\SparkPlug\Response
+ */
 class Redirect implements ResponseInterface
 {
     private $path;
 
+    /**
+     * Redirect constructor.
+     *
+     * @param string $path
+     */
     public function __construct(string $path)
     {
         $this->path = $path;

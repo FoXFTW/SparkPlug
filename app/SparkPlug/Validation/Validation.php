@@ -47,7 +47,7 @@ class Validation
      * Validate Data against Rules
      *
      * @param array $rules
-     * @param       $data
+     * @param mixed $data
      *
      * @return array
      * @throws \App\SparkPlug\Validation\Exceptions\ValidationException
@@ -316,6 +316,11 @@ class Validation
         return true;
     }
 
+    /**
+     * Test ob Data aus Buchstaben sowie -_ besteht
+     *
+     * @return bool
+     */
     private function testAlphaDash()
     {
         if (!filter_var(
@@ -331,6 +336,11 @@ class Validation
         return true;
     }
 
+    /**
+     * Test ob Data nur aus Buchstaben besteht
+     *
+     * @return bool
+     */
     private function testAlpha()
     {
         if (!filter_var(
@@ -346,6 +356,11 @@ class Validation
         return true;
     }
 
+    /**
+     * Test ob Data aus Buchstaben und Zahlen besteht
+     *
+     * @return bool
+     */
     private function testAlphaNum()
     {
         if (!filter_var(

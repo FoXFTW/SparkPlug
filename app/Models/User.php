@@ -9,6 +9,10 @@ namespace App\Models;
 
 use App\SparkPlug\Models\AbstractBaseModel as Model;
 
+/**
+ * Class User
+ * @package App\Models
+ */
 class User extends Model
 {
     protected $table = 'users';
@@ -22,6 +26,11 @@ class User extends Model
         'email',
     ];
 
+    /**
+     * Gibt alle RIAs des Users als Collection zurück
+     *
+     * @return \App\SparkPlug\Collections\CollectionInterface|\App\SparkPlug\Models\ModelCollection|bool
+     */
     public function rias()
     {
         $rias = new Ria();

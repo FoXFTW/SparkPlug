@@ -32,16 +32,36 @@ class Session
         session_regenerate_id(true);
     }
 
+    /**
+     * Holt Wert aus Session
+     *
+     * @param string $key
+     *
+     * @return mixed|null
+     */
     public function get(string $key)
     {
         return $this->__get($key);
     }
 
+    /**
+     * Setzt Wert in Session
+     *
+     * @param string $name
+     * @param        $value
+     */
     public function set(string $name, $value)
     {
         $this->__set($name, $value);
     }
 
+    /**
+     * Holt Wert aus Session und löscht Wert
+     *
+     * @param string $key
+     *
+     * @return mixed|null|void
+     */
     public function pull(string $key)
     {
         if (!$this->__isset($key)) {
@@ -57,7 +77,7 @@ class Session
     /**
      * Holt Wert aus Session
      *
-     * @param $name string Array Key
+     * @param string $name Array Key
      *
      * @return null|mixed
      */
@@ -73,8 +93,8 @@ class Session
     /**
      * Setzt Wert in Session
      *
-     * @param $name  string Key
-     * @param $value mixed Value
+     * @param string $name  Key
+     * @param mixed  $value Value
      */
     public function __set($name, $value)
     {
@@ -84,7 +104,7 @@ class Session
     /**
      * Prüft ob Wert in Session vorhanden
      *
-     * @param $name string Key
+     * @param string $name Key
      *
      * @return bool
      */
@@ -96,7 +116,7 @@ class Session
     /**
      * Löscht Wert aus Session
      *
-     * @param $name string Key
+     * @param string $name Key
      */
     public function __unset($name)
     {

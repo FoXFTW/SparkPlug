@@ -9,6 +9,12 @@ namespace App\SparkPlug\Exceptions;
 
 use Exception;
 
+/**
+ * Class TokenMissMatchException
+ * Thrown if CSRF Tokens do not match
+ *
+ * @package App\SparkPlug\Exceptions
+ */
 class TokenMissMatchException extends Exception
 {
 

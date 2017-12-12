@@ -9,16 +9,28 @@ namespace App\SparkPlug\Validation\Exceptions;
 
 use Exception;
 
+/**
+ * Class ValidationException
+ * @package App\SparkPlug\Validation\Exceptions
+ */
 class ValidationException extends Exception
 {
     private $errors = [];
 
+    /**
+     * ValidationException constructor.
+     *
+     * @param array $failedRules
+     */
     public function __construct(array $failedRules)
     {
         $this->message = implode('<br>', $failedRules);
         $this->errors = $failedRules;
     }
 
+    /**
+     * @return array
+     */
     public function getErrors(): array
     {
         return $this->errors;

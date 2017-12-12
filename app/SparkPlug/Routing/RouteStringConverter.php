@@ -53,6 +53,13 @@ class RouteStringConverter
         return static::REGEX_START.$route.static::REGEX_END;
     }
 
+    /**
+     * Löscht Parameter aus Route
+     *
+     * @param \App\SparkPlug\Routing\Route $route
+     *
+     * @return string
+     */
     public static function cleanRoute(Route $route): string
     {
         $route = $route->getRoute();

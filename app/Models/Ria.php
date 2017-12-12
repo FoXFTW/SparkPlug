@@ -9,6 +9,10 @@ namespace App\Models;
 
 use App\SparkPlug\Models\AbstractBaseModel as Model;
 
+/**
+ * Class Ria
+ * @package App\Models
+ */
 class Ria extends Model
 {
     protected $table = 'rias';

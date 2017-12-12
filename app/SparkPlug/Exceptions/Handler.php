@@ -51,6 +51,7 @@ class Handler
 
             case ValidationException::class:
                 session_set('error', $e->getErrors());
+
                 return back();
 
             default:

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 /**
  * User: Hannes
  * Date: 20.11.2017
@@ -9,6 +9,10 @@ namespace App\SparkPlug\Database;
 
 use PDO;
 
+/**
+ * Interface DBAccessInterface
+ * @package App\SparkPlug\Database
+ */
 interface DBAccessInterface
 {
     /**
