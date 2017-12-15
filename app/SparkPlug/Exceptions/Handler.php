@@ -56,7 +56,9 @@ class Handler
 
             default:
                 $view = new View('errors.500', 500);
-                $view->setVars(['error' => self::convertExceptionToHtml($e)]);
+                if (config('app.debug')) {
+                    $view->setVars(['error' => self::convertExceptionToHtml($e)]);
+                }
                 $view->send();
                 break;
         }
