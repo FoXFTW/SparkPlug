@@ -135,22 +135,26 @@ class View extends AbstractBaseView
         /** @var Router $router */
         $router = app()->make(Router::class);
 
-        foreach ($routeNames as $routeName) {
-            $route = $router->findByName($routeName);
-            $this->rawContent = str_replace(
-                "@route('{$routeName}')",
-                config('app.url').$route->getRoute(),
-                $this->rawContent
-            );
+        if (!empty($routeNames)) {
+            for ($i = 0; $i < count($routeNames[0]); $i++) {
+                $route = $router->findByName($routeNames[1][$i]);
+                $this->rawContent = str_replace(
+                    $routeNames[0][$i],
+                    config('app.url').$route->getRoute(),
+                    $this->rawContent
+                );
+            }
         }
 
-        foreach ($routeWithArgs as $routeName => $arg) {
-            $route = $router->findByName($routeName);
-            $this->rawContent = preg_replace(
-                "/@route\(\'{$routeName}\',\s*?\'?{$arg}\'?\)/",
-                config('app.url').RouteStringConverter::cleanRoute($route).$arg,
-                $this->rawContent
-            );
+        if (!empty($routeWithArgs)) {
+            for ($i = 0; $i < count($routeWithArgs[0]); $i++) {
+                $route = $router->findByName($routeWithArgs[1][$i]);
+                $this->rawContent = str_replace(
+                    $routeWithArgs[0][$i],
+                    config('app.url').RouteStringConverter::cleanRoute($route).$routeWithArgs[2][$i],
+                    $this->rawContent
+                );
+            }
         }
     }
 
@@ -198,7 +202,7 @@ class View extends AbstractBaseView
         preg_match_all("/@route\(\'([\w-]+)\'\)/", $this->rawContent, $matches);
 
         if (count($matches) === 2) {
-            return $matches[1];
+            return $matches;
         }
 
         return [];
@@ -212,7 +216,7 @@ class View extends AbstractBaseView
         preg_match_all("/@route\(\'([\w-]+)\',\s*?\'?([\w-]+)\'?\)/", $this->rawContent, $matches);
 
         if (count($matches) === 3) {
-            return array_combine($matches[1], $matches[2]);
+            return $matches;
         }
 
         return [];
