@@ -79,7 +79,7 @@ class Validation
                     }
 
                     if (!in_array($rule, static::TESTS)) {
-                        throw new InvalidArgumentException("Test {$rule} not in (".implode(static::TESTS)."}");
+                        throw new InvalidArgumentException("Test {$rule} not in (".implode(', ',static::TESTS).")");
                     }
 
                     if (!call_user_func_array([$this, 'test'.str_replace('_', '', ucwords($rule, '_'))], $options)) {
