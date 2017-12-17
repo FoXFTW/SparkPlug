@@ -75,7 +75,7 @@ class View extends AbstractBaseView
      *
      * @param array $vars Array mit zu setzenden Variablen
      */
-    public function setVars(array $vars): void
+    public function setVars(?array $vars): void
     {
         $this->variables = $vars;
     }
@@ -164,6 +164,7 @@ class View extends AbstractBaseView
 
         foreach ($subTemplates as $subTemplate) {
             $view = new View($subTemplate);
+            $view->setVars($this->variables);
             $this->rawContent = str_replace("@include('{$subTemplate}')", $view->getContent(), $this->rawContent);
         }
     }
