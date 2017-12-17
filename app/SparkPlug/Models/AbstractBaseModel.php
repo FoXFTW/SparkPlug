@@ -63,10 +63,8 @@ abstract class AbstractBaseModel
         }
 
         if (is_array($options)) {
-            foreach ($this->fillable as $value) {
-                if (isset($options[$value])) {
-                    $this->attributes[$value] = $options[$value];
-                }
+            foreach ($options as $key => $value) {
+                $this->attributes[$key] = $value;
             }
         }
     }
@@ -208,11 +206,11 @@ abstract class AbstractBaseModel
 
         $this->query->execute();
 
-        $result = $this->query->fetch();
+        $result = $this->query->fetchAll();
 
         if (!empty($result)) {
             return $this->createCollectionFromResult(
-                $this->query->fetchAll(config('database.fetch'), \PDO::FETCH_ORI_NEXT, 0)
+                $result
             );
         }
 
@@ -244,7 +242,7 @@ abstract class AbstractBaseModel
 
         $where = '';
         if (!empty($this->queryparams['where'])) {
-            $where = 'WHERE '.rtrim(implode('AND ', $p['where']), 'AND ');
+            $where = 'WHERE '.rtrim(implode(' AND ', $p['where']), 'AND ');
         }
 
         $join = '';
