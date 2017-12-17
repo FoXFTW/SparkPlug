@@ -34,7 +34,8 @@ class User extends Model
     public function rias()
     {
         $rias = new Ria();
+        $rias = $rias->query()->where('user_id', '=', $this->user_id)->fetchAll();
 
-        return $rias->query()->where('user_id', '=', $this->user_id)->fetchAll();
+        return $rias;
     }
 }

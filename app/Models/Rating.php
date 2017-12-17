@@ -16,4 +16,14 @@ use App\SparkPlug\Models\AbstractBaseModel as Model;
 class Rating extends Model
 {
     protected $table = 'ratings';
+
+    public function user()
+    {
+        return new User($this->user_id);
+    }
+
+    public function ria()
+    {
+        return new Ria($this->ria_id);
+    }
 }
