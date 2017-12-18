@@ -43,6 +43,13 @@ class Handler
     {
         $class = get_class($e);
 
+        if (config('app.debug')) {
+            $view = new View('errors.500', 500);
+            $view->setVars(['error' => self::convertExceptionToHtml($e)]);
+            $view->send();
+            die();
+        }
+
         switch ($class) {
             case RouteNotFoundException::class:
                 $view = new View('errors.404', 404);
@@ -54,11 +61,13 @@ class Handler
 
                 return back();
 
+            case TokenMissMatchException::class:
+                $view = new View('errors.session_expired', 401);
+                $view->send();
+                break;
+
             default:
                 $view = new View('errors.500', 500);
-                if (config('app.debug')) {
-                    $view->setVars(['error' => self::convertExceptionToHtml($e)]);
-                }
                 $view->send();
                 break;
         }
