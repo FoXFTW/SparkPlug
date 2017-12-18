@@ -170,7 +170,7 @@ abstract class AbstractBaseModel
     /**
      * Holt Wert aus Query
      *
-     * @return bool|static
+     * @return array|static|bool
      */
     public function fetch()
     {
@@ -185,7 +185,11 @@ abstract class AbstractBaseModel
         $result = $this->query->fetch();
 
         if (!empty($result)) {
-            return new static($result);
+            if ($this->queryparams['what'] === '*') {
+                return new static($result);
+            }
+
+            return $result;
         }
 
         return false;
@@ -194,7 +198,7 @@ abstract class AbstractBaseModel
     /**
      * Holt alle Werte aus Query
      *
-     * @return \App\SparkPlug\Collections\CollectionInterface|\App\SparkPlug\Models\ModelCollection|bool
+     * @return \App\SparkPlug\Collections\CollectionInterface|\App\SparkPlug\Models\ModelCollection|bool|array
      */
     public function fetchAll()
     {
@@ -209,9 +213,13 @@ abstract class AbstractBaseModel
         $result = $this->query->fetchAll();
 
         if (!empty($result)) {
-            return $this->createCollectionFromResult(
-                $result
-            );
+            if ($this->queryparams['what'] === '*') {
+                return $this->createCollectionFromResult(
+                    $result
+                );
+            }
+
+            return $result;
         }
 
         return new ModelCollection();
@@ -275,13 +283,13 @@ abstract class AbstractBaseModel
     {
         $fillableAttributes = $this->getFillableAttributes();
         if (!empty($fillableAttributes)) {
-            $fillableAttributes['updated_at'] = date('Y-m-d H:i:s');
-            $statement = $this->db->getDB()->query(
-                "UPDATE {$this->table} SET ".implode(
+            $fillableAttributes['updated_at'] = date('Y-m-d H:i:s', time());
+            $queryString = "UPDATE {$this->table} SET ".implode(
                     ' = ?, ',
                     array_keys($fillableAttributes)
-                )."= ? WHERE {$this->primary_key} = {$this->attributes[$this->primary_key]}"
-            );
+                )."= ? WHERE {$this->primary_key} = {$this->attributes[$this->primary_key]}";
+
+            $statement = $this->db->getDB()->prepare($queryString);
             $statement->execute(array_values($fillableAttributes));
         }
     }
