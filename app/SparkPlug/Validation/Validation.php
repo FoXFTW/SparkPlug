@@ -37,6 +37,7 @@ class Validation
         'max',
         'confirmed',
         'nullable',
+        'file',
     ];
 
     private const EXCLUDE_TESTS = [
@@ -419,6 +420,23 @@ class Validation
             ["options" => ["regexp" => "/^[a-zA-Z0-9]+$/"]]
         )) {
             $this->failedRules[] = "Feld {$this->currentKey} darf nur Alphanumerische Zeichen enthalten";
+
+            return false;
+        }
+
+        return true;
+    }
+
+    private function testFile()
+    {
+        if (!is_array($this->data[$this->currentKey])) {
+            return false;
+        }
+
+        $file = $this->data[$this->currentKey];
+
+        if(!file_exists($file['tmp_name']) || !is_uploaded_file($file['tmp_name'])) {
+            $this->failedRules[] = "Feld {$this->currentKey} ist keine Datei";
 
             return false;
         }

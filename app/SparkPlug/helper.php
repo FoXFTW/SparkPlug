@@ -77,6 +77,20 @@ if (!function_exists('database_path')) {
     }
 }
 
+if (!function_exists('storage_path')) {
+    /**
+     * Gibt angegebenen Pfad mit Basispfad zurück
+     *
+     * @param string $path
+     *
+     * @return string
+     */
+    function storage_path(string $path)
+    {
+        return app()->getBasePath()."/storage/app/{$path}";
+    }
+}
+
 if (!function_exists('redirect')) {
     /**
      * @param string $path
@@ -174,25 +188,6 @@ if (!function_exists('session_get')) {
     }
 }
 
-if (!function_exists('csrf_token')) {
-    /**
-     * Holt CSRF Token aus Session oder generiert einen
-     *
-     * @return string
-     * @throws \Exception
-     */
-    function csrf_token(): string
-    {
-        $token = session_get('csrf_token');
-        if (is_null($token)) {
-            session_set('csrf_token', bin2hex(random_bytes(32)));
-        }
-
-        return session_get('csrf_token');
-    }
-}
-
-
 if (!function_exists('session_has')) {
     /**
      * Prüft ob Key in Session vorhanden ist
@@ -208,5 +203,23 @@ if (!function_exists('session_has')) {
         }
 
         return false;
+    }
+}
+
+if (!function_exists('csrf_token')) {
+    /**
+     * Holt CSRF Token aus Session oder generiert einen
+     *
+     * @return string
+     * @throws \Exception
+     */
+    function csrf_token(): string
+    {
+        $token = session_get('csrf_token');
+        if (is_null($token)) {
+            session_set('csrf_token', bin2hex(random_bytes(32)));
+        }
+
+        return session_get('csrf_token');
     }
 }
