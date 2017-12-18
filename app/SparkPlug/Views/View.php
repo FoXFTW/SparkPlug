@@ -158,6 +158,9 @@ class View extends AbstractBaseView
         }
     }
 
+    /**
+     * @throws \App\SparkPlug\Routing\Exceptions\RouteNotFoundException
+     */
     private function renderSubViews(): void
     {
         $subTemplates = $this->getSubTemplatesFromView();

@@ -9,6 +9,7 @@ namespace App\Controllers\User;
 
 use App\SparkPlug\Auth\Auth;
 use App\SparkPlug\Controllers\AbstractController as Controller;
+use App\SparkPlug\Validation\Validation;
 use App\SparkPlug\Views\View;
 
 /**
@@ -41,9 +42,12 @@ class AccountController extends Controller
     }
 
 
+    /**
+     * @return \App\SparkPlug\Response\Redirect
+     * @throws \App\SparkPlug\Validation\Exceptions\ValidationException
+     */
     public function changePassword()
     {
-
         $validator = new Validation();
 
         $data = $validator->validate(
@@ -53,21 +57,21 @@ class AccountController extends Controller
             $this->request
         );
 
-        $userId = app()->make(Auth::class)->getUser().user_id;
+        $user = app()->make(Auth::class)->getUser();
 
-        /* TODO get user, change password
+        /* TODO get user, change password */
         $user->password = bcrypt($data['password']);
 
         try {
             $user->save();
         } catch (\PDOException $e) {
+            session_set('error', ['Fehler bei der Speicherung']);
 
             return back();
         }
-        }
-     */
+
+        session_set('message', 'Passwort gespeichert');
 
         return redirect('/profile');
     }
-
 }
