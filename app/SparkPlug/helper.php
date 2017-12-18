@@ -148,13 +148,13 @@ if (!function_exists('session_set')) {
     /**
      * Setzt einen Wert in der Session
      *
-     * @param string $name
+     * @param string $key
      * @param mixed  $value
      */
-    function session_set(string $name, $value)
+    function session_set(string $key, $value)
     {
         $session = app()->make(\App\SparkPlug\Session::class);
-        $session->set($name, $value);
+        $session->set($key, $value);
     }
 }
 
@@ -162,15 +162,15 @@ if (!function_exists('session_get')) {
     /**
      * Holt einen Wert aus der Session
      *
-     * @param string $name
+     * @param string $key
      *
      * @return mixed
      */
-    function session_get(string $name)
+    function session_get(string $key)
     {
         $session = app()->make(\App\SparkPlug\Session::class);
 
-        return $session->get($name);
+        return $session->get($key);
     }
 }
 
@@ -189,5 +189,24 @@ if (!function_exists('csrf_token')) {
         }
 
         return session_get('csrf_token');
+    }
+}
+
+
+if (!function_exists('session_has')) {
+    /**
+     * Prüft ob Key in Session vorhanden ist
+     *
+     * @param string $key
+     *
+     * @return bool
+     */
+    function session_has(string $key): bool
+    {
+        if (!is_null(session_get($key))) {
+            return true;
+        }
+
+        return false;
     }
 }
