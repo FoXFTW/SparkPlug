@@ -26,6 +26,7 @@ class Validation
         'alpha_dash',
         'boolean',
         'email',
+        'exists',
         'int',
         'float',
         'string',
@@ -35,8 +36,12 @@ class Validation
         'min',
         'max',
         'confirmed',
+        'nullable',
     ];
 
+    private const EXCLUDE_TESTS = [
+        'nullable',
+    ];
 
     private $failedRules = [];
 
@@ -67,29 +72,34 @@ class Validation
 
         foreach ($rules as $name => $rule) {
             $this->currentKey = $name;
-            if (isset($data[$name])) {
-                $validationRules = explode('|', $rule);
 
+            $validationRules = explode('|', $rule);
+
+            if (!isset($data[$name]) && !isset($validationRules['nullable'])) {
+                $this->failedRules[] = "Feld {$name} muss ausgefüllt sein";
+            } else {
                 foreach ($validationRules as $validationRule) {
                     $validationRule = explode(':', $validationRule);
+
                     $rule = array_shift($validationRule);
                     $options = [];
                     if (!empty($validationRule)) {
-                        $options = $validationRule;
+                        $options = explode(',', $validationRule[0]);
                     }
 
                     if (!in_array($rule, static::TESTS)) {
-                        throw new InvalidArgumentException("Test {$rule} not in (".implode(', ',static::TESTS).")");
+                        throw new InvalidArgumentException("Test {$rule} not in (".implode(', ', static::TESTS).")");
                     }
 
-                    if (!call_user_func_array([$this, 'test'.str_replace('_', '', ucwords($rule, '_'))], $options)) {
-                        // Flash data into session on fail
-                        session_set($name, $data[$name]);
+                    if (!in_array($rule, static::EXCLUDE_TESTS)) {
+                        if (!call_user_func_array([$this, 'test'.str_replace('_', '', ucwords($rule, '_'))], $options)) {
+                            // Flash data into session on fail
+                            session_set($name, $data[$name]);
+                        }
                     }
                 }
-            } else {
-                $this->failedRules[] = "Feld {$name} muss ausgefüllt sein";
             }
+
         }
 
         if (!empty($this->failedRules)) {
@@ -106,7 +116,7 @@ class Validation
      */
     private function testString()
     {
-        if (!is_string($this->data[$this->currentKey])) {
+        if (!is_string($this->data[$this->currentKey]) || strip_tags($this->data[$this->currentKey]) !== $this->data[$this->currentKey]) {
             $this->failedRules[] = "Feld {$this->currentKey} ist kein String";
 
             return false;
@@ -199,22 +209,62 @@ class Validation
     /**
      * Test ob Data in angegebener Tabelle nicht existiert
      *
-     * @param string $table
+     * @param string      $table
+     *
+     * @param null|string $attribute
      *
      * @return bool
      */
-    private function testUnique(string $table)
+    private function testUnique(string $table, ?string $attribute = null)
     {
         /** @var DBAccessInterface $db */
         $db = app()->make(DBAccessInterface::class);
         /** @var \PDO $db */
         $db = $db->getDB();
 
-        $statement = $db->prepare("SELECT * FROM {$table} WHERE {$this->currentKey} LIKE ?");
+        $key = $this->currentKey;
+        if (!is_null($attribute)) {
+            $key = $attribute;
+        }
+
+        $statement = $db->prepare("SELECT * FROM {$table} WHERE {$key} LIKE ?");
         $statement->execute([$this->data[$this->currentKey]]);
 
         if (!empty($statement->fetchAll())) {
             $this->failedRules[] = "{$this->currentKey} bereits vergeben";
+
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Test ob Data in angegebener Tabelle nicht existiert
+     *
+     * @param string      $table
+     *
+     * @param null|string $attribute
+     *
+     * @return bool
+     */
+    private function testExists(string $table, ?string $attribute = null)
+    {
+        /** @var DBAccessInterface $db */
+        $db = app()->make(DBAccessInterface::class);
+        /** @var \PDO $db */
+        $db = $db->getDB();
+
+        $key = $this->currentKey;
+        if (!is_null($attribute)) {
+            $key = $attribute;
+        }
+
+        $statement = $db->prepare("SELECT * FROM {$table} WHERE {$key} LIKE ?");
+        $statement->execute([$this->data[$this->currentKey]]);
+
+        if (empty($statement->fetchAll())) {
+            $this->failedRules[] = "{$this->currentKey} existiert nicht";
 
             return false;
         }
