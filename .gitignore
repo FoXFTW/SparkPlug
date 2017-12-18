@@ -6,3 +6,5 @@
 /public/fonts/
 /public/js/
 /public/img/
+/storage/database/*.sqlite
+!/storage/database/app_schema.sqlite
