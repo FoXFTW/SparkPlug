@@ -93,7 +93,10 @@ class Validation
                     }
 
                     if (!in_array($rule, static::EXCLUDE_TESTS)) {
-                        if (!call_user_func_array([$this, 'test'.str_replace('_', '', ucwords($rule, '_'))], $options)) {
+                        if (!call_user_func_array(
+                            [$this, 'test'.str_replace('_', '', ucwords($rule, '_'))],
+                            $options
+                        )) {
                             // Flash data into session on fail
                             session_set($name, $data[$name]);
                         }
@@ -117,7 +120,9 @@ class Validation
      */
     private function testString()
     {
-        if (!is_string($this->data[$this->currentKey]) || strip_tags($this->data[$this->currentKey]) !== $this->data[$this->currentKey]) {
+        if (!is_string($this->data[$this->currentKey]) || strip_tags(
+                $this->data[$this->currentKey]
+            ) !== $this->data[$this->currentKey]) {
             $this->failedRules[] = "Feld {$this->currentKey} ist kein String";
 
             return false;
@@ -435,12 +440,56 @@ class Validation
 
         $file = $this->data[$this->currentKey];
 
-        if(!file_exists($file['tmp_name']) || !is_uploaded_file($file['tmp_name'])) {
+        if (!file_exists($file['tmp_name']) || !is_uploaded_file($file['tmp_name'])) {
             $this->failedRules[] = "Feld {$this->currentKey} ist keine Datei";
 
             return false;
         }
 
+        if ($file['size'] > $this->maxFileUploadInBytes()) {
+            $this->failedRules[] = "Datei {$this->currentKey} ist Übersteig Upload-Limit. Is: {$file['size']} Max: {$this->maxFileUploadInBytes()}";
+
+            return false;
+        }
+
         return true;
+    }
+
+    /**
+     * @param $val
+     *
+     * @return int|string
+     */
+    private function returnBytes($val)
+    {
+        $val = trim($val);
+        $last = strtolower($val[strlen($val) - 1]);
+        $val = intval($val);
+
+        switch (substr($last, -1)) {
+            case 'M':
+            case 'm':
+                return (int) $val * 1048576;
+            case 'K':
+            case 'k':
+                return (int) $val * 1024;
+            case 'G':
+            case 'g':
+                return (int) $val * 1073741824;
+            default:
+                return $val;
+        }
+    }
+
+    /**
+     * @return mixed
+     */
+    private function maxFileUploadInBytes()
+    {
+        $maxUpload = $this->returnBytes(ini_get('upload_max_filesize'));
+        $maxPost = $this->returnBytes(ini_get('post_max_size'));
+        $memoryLimit = $this->returnBytes(ini_get('memory_limit'));
+
+        return min($maxUpload, $maxPost, $memoryLimit);
     }
 }
