@@ -1,7 +1,6 @@
 /node_modules
 /vendor
 /.idea
-/composer.lock
 /public/css/
 /public/fonts/
 /public/js/
