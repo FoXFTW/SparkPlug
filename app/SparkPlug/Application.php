@@ -189,7 +189,7 @@ class Application
     }
 
     /**
-     * Löscht Error aus Session und setzt zuletzt aufgerufene Seite
+     * Löscht Error / Form-Eingaben aus Session und setzt URI der zuletzt aufgerufenen Seite
      */
     public function terminate(): void
     {

@@ -9,6 +9,7 @@ namespace App\SparkPlug\Views;
 
 /**
  * Class RawView
+ * View der mit eigenem Inhalt befüllt werden kann
  *
  * @package App\SparkPlug\Views
  */

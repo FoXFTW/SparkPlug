@@ -12,6 +12,7 @@ use App\SparkPlug\Routing\Exceptions\RouteNotFoundException;
 
 /**
  * Class Router
+ * Router, welcher Anfragen zu Routen matched
  *
  * @package App\SparkPlug\Routing
  */

@@ -242,6 +242,8 @@ abstract class AbstractBaseModel
     }
 
     /**
+     * Erstellt aus dem Query-Array ein SQL-Validen String
+     *
      * @return string
      */
     private function assembleQueryString(): string
@@ -264,6 +266,8 @@ abstract class AbstractBaseModel
     }
 
     /**
+     * Erstellt eine ModelCollection aus DB-Query
+     *
      * @param array $result
      *
      * @return \App\SparkPlug\Collections\CollectionInterface
@@ -279,6 +283,9 @@ abstract class AbstractBaseModel
         return $collection;
     }
 
+    /**
+     * Updated das Model in der Datenbank
+     */
     private function updateModelByAttributes()
     {
         $fillableAttributes = $this->getFillableAttributes();
@@ -294,6 +301,9 @@ abstract class AbstractBaseModel
         }
     }
 
+    /**
+     * Erstellt ein Model in der Datenbank
+     */
     private function createModelFromAttributes()
     {
         if (!empty($this->attributes)) {

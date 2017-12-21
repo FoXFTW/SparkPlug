@@ -458,6 +458,8 @@ class Validation
     }
 
     /**
+     * Berechnet Größenangaben in Bytes um
+     *
      * @param $val
      *
      * @return int|string
@@ -481,6 +483,8 @@ class Validation
     }
 
     /**
+     * Berechnet die maximale Upload-Größe für Dateien anhand der PHP.ini
+     *
      * @return mixed
      */
     private function maxFileUploadInBytes()

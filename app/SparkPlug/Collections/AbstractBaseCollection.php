@@ -10,12 +10,23 @@ namespace App\SparkPlug\Collections;
 use Countable;
 use Iterator;
 
+/**
+ * Class AbstractBaseCollection
+ * Basis Klasse für Collections
+ *
+ * @package App\SparkPlug\Collections
+ */
 abstract class AbstractBaseCollection implements CollectionInterface, Iterator, Countable
 {
     protected $data = [];
     protected $keys = [];
     protected $currentPosition = 0;
 
+    /**
+     * Gibt alle Daten der Collection zurück
+     *
+     * @return array
+     */
     public function all(): array
     {
         return $this->data;

@@ -9,6 +9,7 @@ namespace App\SparkPlug\Routing;
 
 /**
  * Class RouteStringConverter
+ * Konvertiert Routen zu Strings
  *
  * @package App\SparkPlug\Routing
  */
