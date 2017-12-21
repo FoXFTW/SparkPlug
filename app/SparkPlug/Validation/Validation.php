@@ -93,20 +93,22 @@ class Validation
                     }
 
                     if (!in_array($rule, static::EXCLUDE_TESTS)) {
-                        if (!call_user_func_array(
+                        call_user_func_array(
                             [$this, 'test'.str_replace('_', '', ucwords($rule, '_'))],
                             $options
-                        )) {
-                            // Flash data into session on fail
-                            session_set($name, $data[$name]);
-                        }
+                        );
                     }
                 }
             }
-
         }
 
         if (!empty($this->failedRules)) {
+            foreach ($rules as $name => $rule) {
+                if (isset($data[$name])) {
+                    session_set($name, $data[$name]);
+                }
+            }
+
             throw new ValidationException($this->failedRules);
         }
 
@@ -467,13 +469,10 @@ class Validation
         $val = intval($val);
 
         switch (substr($last, -1)) {
-            case 'M':
             case 'm':
                 return (int) $val * 1048576;
-            case 'K':
             case 'k':
                 return (int) $val * 1024;
-            case 'G':
             case 'g':
                 return (int) $val * 1073741824;
             default:
@@ -489,6 +488,10 @@ class Validation
         $maxUpload = $this->returnBytes(ini_get('upload_max_filesize'));
         $maxPost = $this->returnBytes(ini_get('post_max_size'));
         $memoryLimit = $this->returnBytes(ini_get('memory_limit'));
+
+        if ($memoryLimit < 0) {
+            $memoryLimit = PHP_INT_MAX;
+        }
 
         return min($maxUpload, $maxPost, $memoryLimit);
     }

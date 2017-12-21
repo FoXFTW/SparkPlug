@@ -111,7 +111,10 @@ if (!function_exists('back')) {
      */
     function back()
     {
-        return app()->makeWith(\App\SparkPlug\Response\Redirect::class, [session_get('previous_page')])->send();
+        /** @var \App\SparkPlug\Session $session */
+        $session = app()->make(\App\SparkPlug\Session::class);
+
+        return app()->makeWith(\App\SparkPlug\Response\Redirect::class, [$session->previous_page])->send();
     }
 }
 
@@ -167,6 +170,7 @@ if (!function_exists('session_set')) {
      */
     function session_set(string $key, $value)
     {
+        /** @var \App\SparkPlug\Session $session */
         $session = app()->make(\App\SparkPlug\Session::class);
         $session->set($key, $value);
     }
@@ -182,6 +186,7 @@ if (!function_exists('session_get')) {
      */
     function session_get(string $key)
     {
+        /** @var \App\SparkPlug\Session $session */
         $session = app()->make(\App\SparkPlug\Session::class);
 
         return $session->get($key);
@@ -198,7 +203,10 @@ if (!function_exists('session_has')) {
      */
     function session_has(string $key): bool
     {
-        if (!is_null(session_get($key))) {
+        /** @var \App\SparkPlug\Session $session */
+        $session = app()->make(\App\SparkPlug\Session::class);
+
+        if (!is_null($session->get($key))) {
             return true;
         }
 
@@ -215,11 +223,8 @@ if (!function_exists('csrf_token')) {
      */
     function csrf_token(): string
     {
-        $token = session_get('csrf_token');
-        if (is_null($token)) {
-            session_set('csrf_token', bin2hex(random_bytes(32)));
-        }
+        $session = app()->make(\App\SparkPlug\Session::class);
 
-        return session_get('csrf_token');
+        return $session->csrf_token;
     }
 }

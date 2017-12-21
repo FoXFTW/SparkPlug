@@ -19,6 +19,7 @@ class RoutingCollection extends Collection
 {
     /**
      * @inheritdoc
+     *
      * @param mixed $route
      *
      * @return array
@@ -38,6 +39,7 @@ class RoutingCollection extends Collection
 
     /**
      * @inheritdoc
+     *
      * @param mixed $id
      *
      * @return mixed

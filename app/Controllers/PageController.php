@@ -8,7 +8,6 @@
 
 namespace App\Controllers;
 
-use App\Models\User;
 use App\SparkPlug\Controllers\AbstractController as Controller;
 use App\SparkPlug\Views\View;
 

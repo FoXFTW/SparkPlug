@@ -7,8 +7,8 @@
 
 namespace App\SparkPlug\Collections;
 
-use Iterator;
 use Countable;
+use Iterator;
 
 abstract class AbstractBaseCollection implements CollectionInterface, Iterator, Countable
 {
@@ -107,6 +107,9 @@ abstract class AbstractBaseCollection implements CollectionInterface, Iterator, 
         return count($this->data);
     }
 
+    /**
+     * @inheritdoc
+     */
     public function __toString()
     {
         $return = "";

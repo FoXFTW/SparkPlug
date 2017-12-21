@@ -43,7 +43,7 @@ class Handler
     {
         $class = get_class($e);
 
-        if (config('app.debug')) {
+        if (config('app.debug') && $class !== ValidationException::class) {
             $view = new View('errors.500', 500);
             $view->setVars(['error' => self::convertExceptionToHtml($e)]);
             $view->send();

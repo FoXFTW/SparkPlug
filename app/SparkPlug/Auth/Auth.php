@@ -63,7 +63,7 @@ class Auth
         }
 
         $this->user = new User($user);
-        $this->session->set('user', $user);
+        $this->session->user = $user;
 
         return true;
     }
@@ -88,9 +88,12 @@ class Auth
         return $this->user !== null;
     }
 
+    /**
+     * Lädt User aus Session in Klasse zurück
+     */
     private function reloadUser()
     {
-        if (isset($this->session->user) && is_null($this->user)) {
+        if (!is_null($this->session->user) && is_null($this->user)) {
             $this->user = new User($this->session->user);
         }
     }

@@ -54,7 +54,7 @@ class Request implements RequestInterface
             'method' => $_SERVER['REQUEST_METHOD'],
             'post'   => [],
             'get'    => [],
-            'files'   => [],
+            'files'  => [],
         ];
 
         foreach ($_POST as $key => $value) {

@@ -36,8 +36,10 @@ if (!date_default_timezone_set(config('app.timezone'))) {
     date_default_timezone_set(DateTimeZone::listIdentifiers(DateTimeZone::UTC)[0]);
 }
 
-if (is_null(session_get('csrf_token'))) {
-    session_set('csrf_token', bin2hex(random_bytes(32)));
+$session = $app->make(\App\SparkPlug\Session::class);
+
+if (is_null($session->csrf_token)) {
+    $session->csrf_token = bin2hex(random_bytes(32));
 }
 
 return $app;

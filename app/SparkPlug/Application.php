@@ -135,6 +135,7 @@ class Application
      * @return mixed
      * @throws \App\SparkPlug\Routing\Exceptions\RouteNotFoundException
      * @throws \App\SparkPlug\Exceptions\TokenMissMatchException
+     * @throws \Exception
      */
     public function handle(Request $request)
     {
@@ -193,9 +194,10 @@ class Application
     public function terminate(): void
     {
         $session = $this->make(Session::class);
-        unset($session->error);
+        $session->error = null;
+        $session->vars = null;
         if (!is_null($this->request)) {
-            session_set('previous_page', $this->request->getUri());
+            $session->previous_page = $this->request->getUri();
         }
     }
 
@@ -225,7 +227,7 @@ class Application
 
         if ($token !== false) {
             if (!hash_equals($token, csrf_token())) {
-                throw new TokenMissMatchException('Possible CSRF Attempt');
+                throw new TokenMissMatchException('Possible CSRF Attempt<br>'.csrf_token().'<br>'.$token);
             }
         }
     }

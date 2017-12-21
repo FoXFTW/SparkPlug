@@ -13,7 +13,7 @@ namespace App\SparkPlug;
  *
  * @package App\SparkPlug
  */
-class Session
+class Session implements \ArrayAccess
 {
     private $started = false;
     private $prefix;
@@ -41,7 +41,11 @@ class Session
      */
     public function get(string $key)
     {
-        return $this->__get($key);
+        if (isset($_SESSION[$this->prefix]['vars'][$key])) {
+            return $_SESSION[$this->prefix]['vars'][$key];
+        }
+
+        return null;
     }
 
     /**
@@ -52,7 +56,7 @@ class Session
      */
     public function set(string $name, $value)
     {
-        $this->__set($name, $value);
+        $_SESSION[$this->prefix]['vars'][$name] = $value;
     }
 
     /**
@@ -60,16 +64,16 @@ class Session
      *
      * @param string $key
      *
-     * @return mixed|null|void
+     * @return mixed|null
      */
     public function pull(string $key)
     {
-        if (!$this->__isset($key)) {
-            return;
+        if (!isset($_SESSION[$this->prefix]['vars'][$key])) {
+            return null;
         }
 
         $content = $this->get($key);
-        $this->__unset($key);
+        $_SESSION[$this->prefix]['vars'][$key] = null;
 
         return $content;
     }
@@ -110,7 +114,7 @@ class Session
      */
     public function __isset($name)
     {
-        return isset($_SESSION[$this->prefix][$name]);
+        return isset($_SESSION[$this->prefix]['vars'][$name]);
     }
 
     /**
@@ -120,7 +124,7 @@ class Session
      */
     public function __unset($name)
     {
-        unset($_SESSION[$this->prefix][$name]);
+        unset($_SESSION[$this->prefix]['vars'][$name]);
     }
 
     /**
@@ -138,5 +142,77 @@ class Session
         }
 
         return false;
+    }
+
+    /**
+     * Whether a offset exists
+     * @link  http://php.net/manual/en/arrayaccess.offsetexists.php
+     *
+     * @param mixed $offset <p>
+     *                      An offset to check for.
+     *                      </p>
+     *
+     * @return boolean true on success or false on failure.
+     * </p>
+     * <p>
+     * The return value will be casted to boolean if non-boolean was returned.
+     * @since 5.0.0
+     */
+    public function offsetExists($offset)
+    {
+        return isset($_SESSION[$this->prefix][$offset]);
+    }
+
+    /**
+     * Offset to retrieve
+     * @link  http://php.net/manual/en/arrayaccess.offsetget.php
+     *
+     * @param mixed $offset <p>
+     *                      The offset to retrieve.
+     *                      </p>
+     *
+     * @return mixed Can return all value types.
+     * @since 5.0.0
+     */
+    public function offsetGet($offset)
+    {
+        return isset($_SESSION[$this->prefix][$offset]) ? $_SESSION[$this->prefix][$offset] : null;
+    }
+
+    /**
+     * Offset to set
+     * @link  http://php.net/manual/en/arrayaccess.offsetset.php
+     *
+     * @param mixed $offset <p>
+     *                      The offset to assign the value to.
+     *                      </p>
+     * @param mixed $value  <p>
+     *                      The value to set.
+     *                      </p>
+     *
+     * @return void
+     * @since 5.0.0
+     */
+    public function offsetSet($offset, $value)
+    {
+        $_SESSION[$this->prefix][$offset] = $value;
+    }
+
+    /**
+     * Offset to unset
+     * @link  http://php.net/manual/en/arrayaccess.offsetunset.php
+     *
+     * @param mixed $offset <p>
+     *                      The offset to unset.
+     *                      </p>
+     *
+     * @return void
+     * @since 5.0.0
+     */
+    public function offsetUnset($offset)
+    {
+        if (isset($_SESSION[$this->prefix][$offset])) {
+            $_SESSION[$this->prefix][$offset] = null;
+        }
     }
 }

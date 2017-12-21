@@ -67,7 +67,8 @@ class LoginController extends Controller
      */
     public function logout()
     {
-        session_set('user', null);
+        $session = app()->make(Session::class);
+        $session->user = null;
         session_write_close();
 
         return redirect('/');
