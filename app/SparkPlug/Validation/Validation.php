@@ -311,10 +311,10 @@ class Validation
     {
         if (is_numeric($this->data[$this->currentKey])) {
             $pass = intval($this->data[$this->currentKey]) >= intval($min);
-            $text = "größer als {$min} sein";
+            $text = "größer oder gleich {$min} sein";
         } else {
             $pass = strlen($this->data[$this->currentKey]) >= intval($min);
-            $text = "mehr als {$min} Zeichen enthalten";
+            $text = "mindestens {$min} Zeichen enthalten";
         }
 
         if ($pass === false) {
@@ -337,10 +337,10 @@ class Validation
     {
         if (is_numeric($this->data[$this->currentKey])) {
             $pass = intval($this->data[$this->currentKey]) <= intval($max);
-            $text = "kleiner als {$max} sein";
+            $text = "kleiner oder gleich {$max} sein";
         } else {
             $pass = strlen($this->data[$this->currentKey]) <= intval($max);
-            $text = "weniger als {$max} Zeichen enthalten";
+            $text = "maximal {$max} Zeichen enthalten";
         }
 
         if ($pass === false) {
