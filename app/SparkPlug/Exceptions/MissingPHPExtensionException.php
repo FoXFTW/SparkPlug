@@ -12,8 +12,6 @@ use Exception;
 /**
  * Class MissingExtensionException
  * Thrown if a PHP Extension is required but not loaded
- *
- * @package App\SparkPlug\Exceptions
  */
 class MissingPHPExtensionException extends Exception
 {

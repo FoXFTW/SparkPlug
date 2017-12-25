@@ -12,8 +12,6 @@ use Exception;
 /**
  * Class ModelNotFoundException
  * Thrown if Model with given ID was not found in DB
- *
- * @package App\SparkPlug\Models\Exceptions
  */
 class ModelNotFoundException extends Exception
 {

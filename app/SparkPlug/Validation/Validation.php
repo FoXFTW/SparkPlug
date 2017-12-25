@@ -15,8 +15,6 @@ use InvalidArgumentException;
 /**
  * Class Validation
  * Validiert Eingaben
- *
- * @package App\SparkPlug\Validation
  */
 class Validation
 {
@@ -56,6 +54,7 @@ class Validation
      * @param mixed $data
      *
      * @return array
+     *
      * @throws \App\SparkPlug\Validation\Exceptions\ValidationException
      * @throws \InvalidArgumentException
      */
@@ -122,7 +121,8 @@ class Validation
      */
     private function testString()
     {
-        if (!is_string($this->data[$this->currentKey]) || strip_tags(
+        if (!is_string($this->data[$this->currentKey]) ||
+            strip_tags(
                 $this->data[$this->currentKey]
             ) !== $this->data[$this->currentKey]) {
             $this->failedRules[] = "Feld {$this->currentKey} ist kein String";
@@ -186,7 +186,6 @@ class Validation
      *
      * @return bool
      */
-
     private function testFloat()
     {
         if (!filter_var($this->data[$this->currentKey], FILTER_VALIDATE_FLOAT)) {
@@ -303,7 +302,7 @@ class Validation
     /**
      * Test ob Data mindestens x groß ist
      *
-     * @param $min
+     * @param int|string $min
      *
      * @return bool
      */
@@ -317,7 +316,7 @@ class Validation
             $text = "mindestens {$min} Zeichen enthalten";
         }
 
-        if ($pass === false) {
+        if (false === $pass) {
             $this->failedRules[] = "Feld {$this->currentKey} muss {$text}";
 
             return false;
@@ -329,7 +328,7 @@ class Validation
     /**
      * Test ob data max x groß ist
      *
-     * @param $max
+     * @param int|string $max
      *
      * @return bool
      */
@@ -343,7 +342,7 @@ class Validation
             $text = "maximal {$max} Zeichen enthalten";
         }
 
-        if ($pass === false) {
+        if (false === $pass) {
             $this->failedRules[] = "Feld {$this->currentKey} muss {$text}";
 
             return false;
@@ -434,6 +433,11 @@ class Validation
         return true;
     }
 
+    /**
+     * Test ob Data eine hochgeladene Datei ist
+     *
+     * @return bool
+     */
     private function testFile()
     {
         if (!is_array($this->data[$this->currentKey])) {
@@ -460,7 +464,7 @@ class Validation
     /**
      * Berechnet Größenangaben in Bytes um
      *
-     * @param $val
+     * @param string $val
      *
      * @return int|string
      */

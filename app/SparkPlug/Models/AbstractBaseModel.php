@@ -15,8 +15,6 @@ use App\SparkPlug\Models\Exceptions\ModelNotFoundException;
 
 /**
  * Class AbstractBaseModel
- *
- * @package App\SparkPlug\Models
  */
 abstract class AbstractBaseModel
 {
@@ -227,6 +225,8 @@ abstract class AbstractBaseModel
 
     /**
      * @inheritdoc
+     *
+     * @return string
      */
     public function __toString()
     {
@@ -292,9 +292,9 @@ abstract class AbstractBaseModel
         if (!empty($fillableAttributes)) {
             $fillableAttributes['updated_at'] = date('Y-m-d H:i:s', time());
             $queryString = "UPDATE {$this->table} SET ".implode(
-                    ' = ?, ',
-                    array_keys($fillableAttributes)
-                )."= ? WHERE {$this->primary_key} = {$this->attributes[$this->primary_key]}";
+                ' = ?, ',
+                array_keys($fillableAttributes)
+            )."= ? WHERE {$this->primary_key} = {$this->attributes[$this->primary_key]}";
 
             $statement = $this->db->getDB()->prepare($queryString);
             $statement->execute(array_values($fillableAttributes));
@@ -308,7 +308,7 @@ abstract class AbstractBaseModel
     {
         if (!empty($this->attributes)) {
             $values = '';
-            for ($i = 0; $i < count($this->attributes) + 2; $i++) {
+            for ($i = 0; $i < count($this->attributes) + 2; ++$i) {
                 $values .= '?, ';
             }
             $values = rtrim($values, ', ');
@@ -355,6 +355,9 @@ abstract class AbstractBaseModel
         }
     }
 
+    /**
+     * Gets the DB accessor
+     */
     private function getDB()
     {
         $this->db = app()->make(DBAccessInterface::class);

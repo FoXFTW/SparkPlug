@@ -12,8 +12,6 @@ use Exception;
 /**
  * Class DatabaseNotFoundException
  * Thrown if not found/accessible
- *
- * @package App\SparkPlug\Database\Exceptions
  */
 class DatabaseNotFoundException extends Exception
 {

@@ -11,7 +11,6 @@ use App\SparkPlug\Models\AbstractBaseModel as Model;
 
 /**
  * Class User
- * @package App\Models
  */
 class User extends Model
 {

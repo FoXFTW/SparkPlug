@@ -14,8 +14,6 @@ use App\SparkPlug\Views\Exceptions\ViewNotFoundException;
 /**
  * Class View
  * Verarbeitet SparkPlug View Dateien
- *
- * @package App\SparkPlug\Views
  */
 class View extends AbstractBaseView
 {
@@ -53,6 +51,7 @@ class View extends AbstractBaseView
      * Gibt den gerenderten Inhalt des Views zurück
      *
      * @return string Rendered View
+     *
      * @throws \App\SparkPlug\Routing\Exceptions\RouteNotFoundException
      */
     public function getContent(): string
@@ -136,7 +135,7 @@ class View extends AbstractBaseView
         $router = app()->make(Router::class);
 
         if (!empty($routeNames)) {
-            for ($i = 0; $i < count($routeNames[0]); $i++) {
+            for ($i = 0; $i < count($routeNames[0]); ++$i) {
                 $route = $router->findByName($routeNames[1][$i]);
                 $this->rawContent = str_replace(
                     $routeNames[0][$i],
@@ -147,7 +146,7 @@ class View extends AbstractBaseView
         }
 
         if (!empty($routeWithArgs)) {
-            for ($i = 0; $i < count($routeWithArgs[0]); $i++) {
+            for ($i = 0; $i < count($routeWithArgs[0]); ++$i) {
                 $route = $router->findByName($routeWithArgs[1][$i]);
                 $this->rawContent = str_replace(
                     $routeWithArgs[0][$i],

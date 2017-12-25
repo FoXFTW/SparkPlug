@@ -15,8 +15,6 @@ use Throwable;
 /**
  * Class Handler
  * Verarbeitet Exceptions der App
- *
- * @package App\SparkPlug\Exceptions
  */
 class Handler
 {
@@ -28,8 +26,8 @@ class Handler
     public static function printException(Throwable $e): void
     {
         echo "Exception: ".get_class($e)."\nMessage:\n".htmlentities(
-                $e->getMessage()
-            )."\nStack trace:\n{$e->getTraceAsString()}\n";
+            $e->getMessage()
+        )."\nStack trace:\n{$e->getTraceAsString()}\n";
     }
 
     /**
@@ -43,7 +41,7 @@ class Handler
     {
         $class = get_class($e);
 
-        if (config('app.debug') && $class !== ValidationException::class) {
+        if (config('app.debug') && ValidationException::class !== $class) {
             $view = new View('errors.500', 500);
             $view->setVars(['error' => self::convertExceptionToHtml($e)]);
             $view->send();
@@ -82,10 +80,7 @@ class Handler
      */
     private static function convertExceptionToHtml(Throwable $e): string
     {
-        $content = "<h1>Exception: ".get_class($e)."</h1>".
-            "<h3>Message:</h3>".htmlentities($e->getMessage()).
-            "<h3>Stack trace:</h3>".
-            "<pre>{$e->getTraceAsString()}</pre>";
+        $content = "<h1>Exception: ".get_class($e)."</h1>"."<h3>Message:</h3>".htmlentities($e->getMessage())."<h3>Stack trace:</h3>"."<pre>{$e->getTraceAsString()}</pre>";
 
         return $content;
     }

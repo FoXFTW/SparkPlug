@@ -12,8 +12,6 @@ use InvalidArgumentException;
 
 /**
  * Class Request
- *
- * @package App\SparkPlug\Request
  */
 class Request implements RequestInterface
 {

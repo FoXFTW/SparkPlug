@@ -12,8 +12,6 @@ use App\SparkPlug\Response\ResponseInterface;
 
 /**
  * Class AbstractBaseView
- *
- * @package App\SparkPlug\Views
  */
 abstract class AbstractBaseView implements ViewInterface, ResponseInterface
 {

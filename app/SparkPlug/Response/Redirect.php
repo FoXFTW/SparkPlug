@@ -10,8 +10,6 @@ namespace App\SparkPlug\Response;
 /**
  * Class Redirect
  * Erstellt Redirect auf angegebene URL
- *
- * @package App\SparkPlug\Response
  */
 class Redirect implements ResponseInterface
 {

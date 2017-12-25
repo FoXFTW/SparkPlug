@@ -10,8 +10,6 @@ namespace App\SparkPlug\Collections;
 /**
  * Interface CollectionInterface
  * Generisches Interface für Collections
- *
- * @package App\SparkPlug\Collections
  */
 interface CollectionInterface
 {

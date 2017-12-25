@@ -12,8 +12,6 @@ use App\SparkPlug\Routing\Exceptions\MissingActionException;
 
 /**
  * Class Route
- *
- * @package App\SparkPlug\Routing
  */
 class Route
 {

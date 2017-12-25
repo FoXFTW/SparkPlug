@@ -12,8 +12,6 @@ use Exception;
 /**
  * Class ClassNotFoundException
  * Thrown if given classname is not a registered class
- *
- * @package App\SparkPlug\Exceptions
  */
 class ClassNotFoundException extends Exception
 {

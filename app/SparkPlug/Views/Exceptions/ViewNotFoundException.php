@@ -12,8 +12,6 @@ use Exception;
 /**
  * Class ViewNotFoundException
  * Thrown if given name does not exist as a view file
- *
- * @package App\SparkPlug\Views\Exceptions
  */
 class ViewNotFoundException extends Exception
 {

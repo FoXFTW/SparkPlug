@@ -10,8 +10,6 @@ namespace App\SparkPlug;
 /**
  * Class Config
  * Lädt PHP Dateien aus config Ordner
- *
- * @package App\SparkPlug
  */
 class Config
 {

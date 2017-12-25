@@ -16,8 +16,6 @@ use App\SparkPlug\Views\RawView;
  * Application Container
  * Einstiegspunkt in gesamte App
  * Verwaltet in der APp benötigte Singletons und sendet Ausgaben an den Browser
- *
- * @package App\SparkPlug
  */
 class Application
 {
@@ -133,6 +131,7 @@ class Application
      * @param \App\SparkPlug\Request\Request $request Aktueller Request
      *
      * @return mixed
+     *
      * @throws \App\SparkPlug\Routing\Exceptions\RouteNotFoundException
      * @throws \App\SparkPlug\Exceptions\TokenMissMatchException
      * @throws \Exception

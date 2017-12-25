@@ -9,8 +9,6 @@ namespace App\SparkPlug\Response;
 
 /**
  * Interface ResponseInterface
- *
- * @package App\SparkPlug\Response
  */
 interface ResponseInterface
 {

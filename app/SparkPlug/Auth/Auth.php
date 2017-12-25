@@ -13,7 +13,6 @@ use App\SparkPlug\Session;
 
 /**
  * Class Auth
- * @package App\SparkPlug\Auth
  */
 class Auth
 {
@@ -54,7 +53,7 @@ class Auth
 
         $user = $statement->fetch();
 
-        if ($user === false) {
+        if (false === $user) {
             return false;
         }
 

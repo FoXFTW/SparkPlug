@@ -13,8 +13,6 @@ use App\SparkPlug\Views\View;
 
 /**
  * Class PageController
- *
- * @package App\Controllers
  */
 class PageController extends Controller
 {

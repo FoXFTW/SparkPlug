@@ -12,8 +12,6 @@ use Exception;
 /**
  * Class RouteNotFoundException
  * Wird geworfen, wenn eine gesuchte Route nicht in einer RouteCollection vorhanden ist
- *
- * @package App\SparkPlug\Routing\Exceptions
  */
 class RouteNotFoundException extends Exception
 {

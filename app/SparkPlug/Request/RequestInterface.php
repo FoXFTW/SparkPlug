@@ -9,8 +9,6 @@ namespace App\SparkPlug\Request;
 
 /**
  * Interface RequestInterface
- *
- * @package App\SparkPlug\Request
  */
 interface RequestInterface
 {

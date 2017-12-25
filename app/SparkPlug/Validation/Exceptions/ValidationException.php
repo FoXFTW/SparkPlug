@@ -11,7 +11,6 @@ use Exception;
 
 /**
  * Class ValidationException
- * @package App\SparkPlug\Validation\Exceptions
  */
 class ValidationException extends Exception
 {

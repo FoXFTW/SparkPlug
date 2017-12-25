@@ -11,8 +11,6 @@ use App\SparkPlug\Request\RequestInterface;
 
 /**
  * Class AbstractBaseController
- *
- * @package App\SparkPlug\Controllers
  */
 abstract class AbstractController
 {

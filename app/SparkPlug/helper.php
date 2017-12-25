@@ -219,6 +219,7 @@ if (!function_exists('csrf_token')) {
      * Holt CSRF Token aus Session oder generiert einen
      *
      * @return string
+     *
      * @throws \Exception
      */
     function csrf_token(): string

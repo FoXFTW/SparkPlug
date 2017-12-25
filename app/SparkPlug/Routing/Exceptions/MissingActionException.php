@@ -13,8 +13,6 @@ use Throwable;
 /**
  * Class MissingActionException
  * Wird geworfen wenn Action-Parameter einer Route fehlt
- *
- * @package App\SparkPlug\Routing\Exceptions
  */
 class MissingActionException extends Exception
 {

@@ -12,7 +12,6 @@ use InvalidArgumentException;
 
 /**
  * Class ModelCollection
- * @package App\SparkPlug\Models
  */
 class ModelCollection extends Collection
 {
@@ -53,7 +52,9 @@ class ModelCollection extends Collection
     /**
      * Return the current element
      * @link  http://php.net/manual/en/iterator.current.php
+     *
      * @return mixed Can return any type.
+     *
      * @since 5.0.0
      */
     public function current()
@@ -68,8 +69,10 @@ class ModelCollection extends Collection
     /**
      * Checks if current position is valid
      * @link  http://php.net/manual/en/iterator.valid.php
+     *
      * @return boolean The return value will be casted to boolean and then evaluated.
      * Returns true on success or false on failure.
+     *
      * @since 5.0.0
      */
     public function valid()

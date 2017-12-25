@@ -13,8 +13,6 @@ use App\SparkPlug\Routing\Exceptions\RouteNotFoundException;
 /**
  * Class Router
  * Router, welcher Anfragen zu Routen matched
- *
- * @package App\SparkPlug\Routing
  */
 class Router
 {
@@ -50,6 +48,7 @@ class Router
      * @param string $name Name der Route
      *
      * @return \App\SparkPlug\Routing\Route
+     *
      * @throws \App\SparkPlug\Routing\Exceptions\RouteNotFoundException
      */
     public function findByName(string $name): Route
@@ -71,6 +70,7 @@ class Router
      * @param \App\SparkPlug\Request\RequestInterface $request
      *
      * @return \App\SparkPlug\Routing\Route
+     *
      * @throws \App\SparkPlug\Routing\Exceptions\RouteNotFoundException
      */
     public function match(RequestInterface $request): Route
@@ -126,9 +126,9 @@ class Router
     }
 
     /**
-     * @param string $method
-     * @param string $route
-     * @param        $options
+     * @param string       $method
+     * @param string       $route
+     * @param array|string $options
      *
      * @return \App\SparkPlug\Routing\Route
      */

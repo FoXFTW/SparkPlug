@@ -9,7 +9,6 @@ namespace App\SparkPlug\Views;
 
 /**
  * Interface ViewInterface
- * @package App\SparkPlug\Views
  */
 interface ViewInterface
 {

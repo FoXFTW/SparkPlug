@@ -11,7 +11,6 @@ use PDO;
 
 /**
  * Interface DBAccessInterface
- * @package App\SparkPlug\Database
  */
 interface DBAccessInterface
 {

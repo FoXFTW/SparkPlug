@@ -15,8 +15,6 @@ use PDOException;
 
 /**
  * Class SqliteDB
- *
- * @package App\SparkPlug\Database
  */
 class SqliteDB implements DBAccessInterface
 {

@@ -13,8 +13,6 @@ use Throwable;
 /**
  * Class InvalidActionException
  * Wird geworfen wenn Action Parameter einer Route falsch ist
- *
- * @package App\SparkPlug\Routing\Exceptions
  */
 class InvalidActionException extends Exception
 {

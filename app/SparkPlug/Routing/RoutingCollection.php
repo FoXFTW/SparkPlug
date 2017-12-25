@@ -12,8 +12,6 @@ use App\SparkPlug\Routing\Exceptions\RouteNotFoundException;
 
 /**
  * Class RoutingCollection
- *
- * @package App\SparkPlug\Routing
  */
 class RoutingCollection extends Collection
 {
@@ -43,6 +41,7 @@ class RoutingCollection extends Collection
      * @param mixed $id
      *
      * @return mixed
+     *
      * @throws \App\SparkPlug\Routing\Exceptions\RouteNotFoundException
      */
     public function find($id)

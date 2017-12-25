@@ -10,8 +10,6 @@ namespace App\SparkPlug;
 /**
  * Class Session
  * Wrapper für $_SESSION
- *
- * @package App\SparkPlug
  */
 class Session implements \ArrayAccess
 {
@@ -52,7 +50,7 @@ class Session implements \ArrayAccess
      * Setzt Wert in Session
      *
      * @param string $name
-     * @param        $value
+     * @param mixed  $value
      */
     public function set(string $name, $value)
     {
@@ -172,6 +170,7 @@ class Session implements \ArrayAccess
      *                      </p>
      *
      * @return mixed Can return all value types.
+     *
      * @since 5.0.0
      */
     public function offsetGet($offset)
@@ -191,6 +190,7 @@ class Session implements \ArrayAccess
      *                      </p>
      *
      * @return void
+     *
      * @since 5.0.0
      */
     public function offsetSet($offset, $value)
@@ -207,6 +207,7 @@ class Session implements \ArrayAccess
      *                      </p>
      *
      * @return void
+     *
      * @since 5.0.0
      */
     public function offsetUnset($offset)

@@ -12,8 +12,6 @@ use Exception;
 /**
  * Class ConnectionException
  * Thrown if Connection to DB fails
- *
- * @package App\SparkPlug\Database\Exceptions
  */
 class ConnectionException extends Exception
 {
