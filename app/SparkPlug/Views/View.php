@@ -17,6 +17,7 @@ use App\SparkPlug\Views\Exceptions\ViewNotFoundException;
  */
 class View extends AbstractBaseView
 {
+	/** Datei Extension für Templates */
     const TEMPLATE_EXTENSION = '.tmplt.php';
 
     /** @var string Name der Datei ohne Endung */

@@ -13,6 +13,7 @@ namespace App\SparkPlug\Routing;
  */
 class RouteStringConverter
 {
+	/** Route Match Syntax */
     const CONVERSION_DICTIONARY_FROM = [
         '[a]',
         '[a_]',
@@ -20,7 +21,7 @@ class RouteStringConverter
         '[0_]',
         '[?]',
     ];
-
+	/** Route Match Syntax as Regex */
     const CONVERSION_DICTIONARY_TO = [
         '([a-z]*)',
         '([a-z_]*)',
@@ -28,8 +29,9 @@ class RouteStringConverter
         '([0-9_]*)',
         '([\w]*)',
     ];
-
+	/** Regex Start String */
     const REGEX_START = '/^';
+    /** Regex End String */
     const REGEX_END = '$/i';
 
     /**

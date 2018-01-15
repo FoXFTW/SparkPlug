@@ -18,16 +18,21 @@ use App\SparkPlug\Models\Exceptions\ModelNotFoundException;
  */
 abstract class AbstractBaseModel
 {
+	/** @var string Der Tabellenname in der Datenbank */
     protected $table;
+    /** @var string Der Name des primären Keys in der Tabelle */
     protected $primary_key;
+    /** @var array Schreibbare Werte des Models */
     protected $fillable = [];
+	/** @var array Werte welche nicht in Views ausgegeben werden können */
     protected $hidden = [];
+	/** @var array Attribute aus Datenbank */
     private $attributes;
-
     /** @var DBAccessInterface */
     private $db;
-    /** @var  \PDOStatement */
+    /** @var \PDOStatement */
     private $query;
+	/** @var array Enthält Werte für spätere SQL Query */
     private $queryparams = [
         'type'  => 'SELECT',
         'what'  => '',
