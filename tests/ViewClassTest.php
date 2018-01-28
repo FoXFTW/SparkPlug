@@ -28,39 +28,6 @@ class ViewClassTest extends TestCase
         $this->assertContains('html', $view->getContent());
     }
 
-    /**
-     * @covers \App\SparkPlug\Views\View::getContent()
-     * @covers \App\SparkPlug\Views\View::renderView()
-     * @covers \App\SparkPlug\Views\View::renderSubViews()
-     */
-    public function testLoadViewWithTemplate()
-    {
-        $view = new View('user.auth.login');
-        $this->assertContains('html', $view->getContent());
-    }
-
-    /**
-     * @covers \App\SparkPlug\Views\View::getContent()
-     * @covers \App\SparkPlug\Views\View::renderView()
-     */
-    public function testLoadViewWithoutTemplate()
-    {
-        $view = new View('modal.uploadRia');
-        $this->assertNotContains('html', $view->getContent());
-    }
-
-    /**
-     * @covers \App\SparkPlug\Views\View::getContent()
-     * @covers \App\SparkPlug\Views\View::getRawContent()
-     * @covers \App\SparkPlug\Views\View::renderView()
-     */
-    public function testRenderRoutes()
-    {
-        $view = new View('user.auth.login');
-        $this->assertContains('@route(\'register_form\'', $view->getRawContent());
-        $this->assertContains('/register', $view->getContent());
-    }
-
     public function testViewNotFoundException()
     {
         $this->expectException(ViewNotFoundException::class);
