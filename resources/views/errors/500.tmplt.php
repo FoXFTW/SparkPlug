@@ -1,18 +1,14 @@
 <html>
 <head>
-    <title>500 - Interner Fehler</title>
+    <title>500 - Internal Server Error</title>
 </head>
 <body>
-<div class="container">
-    <div class="contentbox jumbotron">
-        <h1>Interner Serverfehler!</h1>
-        <div class="error" style="text-align: left;">
-            <?php if (config('app.debug')) {
-                echo $error;
-            }
-            ?>
-        </div>
+    <h1>500 - Internal Server Error!</h1>
+    <div class="error" style="text-align: left;">
+        <?php if (config('app.debug')) {
+            echo $error;
+        }
+        ?>
     </div>
-</div>
 </body>
 </html>

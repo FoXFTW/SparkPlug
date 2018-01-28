@@ -1,1 +1,1 @@
-<h1>Session abgelaufen, bitte neu einloggen!</h1>
+<h1>Session has expired. Please relogin</h1>

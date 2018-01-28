@@ -1,12 +1,6 @@
-# Web-Programmierung 
-Wintersemester 2017/18
- 
-## Gruppe 03  
-* Hannes Kruse  
-* Kevin Pape  
-* Nastassia Heumann
- 
- 
+# SparkPlug
+### A small PHP FrameWork
+
 ## Benötigte Software + Extensions:
 PHP 7.x (http://be2.php.net/downloads.php)
 
@@ -14,7 +8,6 @@ PHP 7.x (http://be2.php.net/downloads.php)
 
 #### Linux:
 * php7.x-sqlite3 - Datenbanktreiber  
-* php7.x-zip - Zum Entpacken der WARs
  
 #### Windows: (Erweiterungen in php.ini in der Form extension=<name>.dll einfügen)
 php_pdo_sqlite
@@ -47,11 +40,8 @@ Als Root (nur Linux) ausführen:
 ### Production + Development:
 * `php composer.phar dump-autoload`
 * Kopieren der Datei `storage/database/app_schema.sqlite` nach `storage/app/app.sqlite`
+  * Derzeit wird nur SQLite unterstützt. Die Datei `app_schema.sqlite` enthält nur eine gunrdlegende User-Tabelle
 * Anpassen des Upload-Limits in php.ini
-
-Erstellen eines Symlinks von storage/app/rias nach public/rias
-* Windows: `mklink /j public\rias storage\app\rias`
-* Linux: `ln -s ../storage/app/rias public/`
 
 
 ## Start des Servers:
@@ -68,42 +58,6 @@ Es wird zwingend PHPUnit benötigt (siehe Punkt Installation - Development).
 Zum Ausführen der Tests das entsprechende Kommando nutzen:  
 * Windows: `vendor\bin\phpunit.bat --stderr --configuration phpunit.xml tests/`
 * Linux `vendor\bin\phpunit --stderr --configuration phpunit.xml tests/`
-
-
-## Externe Quellen:
-#### FontAwesome (http://fontawesome.io/) In der Version 4.7
-Eingesetzt zur Darstellung von Icons der RIAs
-
-#### Composer (https://getcomposer.org/)
-Eingesetzt zum Erstellen des Class-Autoloaders (http://php.net/manual/de/language.oop5.autoload.php)
-Zusätzlich genutzt um PHPUnit in der Entwicklung zu nutzen
-
-#### NodeJS (https://nodejs.org/en/)
-Basis für Verarbeitung der SCSS/JS Quelldateien
-
-##### gulp.js (https://gulpjs.com/)
-Task-Runner, welcher JavaScript-Skripte ausführt
-
-##### gulp-sass (https://www.npmjs.com/package/gulp-sass)
-Task, welcher SCSS-Dateien in CSS-Dateien übersetzt
-
-##### gulp-cssmin (https://www.npmjs.com/package/gulp-cssmin)
-Task, welcher CSS-Dateien minifiziert
-
-##### gulp-rename (https://www.npmjs.com/package/gulp-rename)
-Task, welcher Dateien umbenennen kann
-
-##### gulp-autoprefixer (https://www.npmjs.com/package/gulp-autoprefixer)
-Task, welcher CSS-Annotationen mit entsprechenden Vendor-Prefixen (https://developer.mozilla.org/de/docs/Glossary/Herstellerpr%C3%A4fix) versieht
-
-##### gulp-uglify (https://www.npmjs.com/package/gulp-uglify)
-Task, welcher JS-Dateien minifiziert
-
-##### gulp-concat (https://www.npmjs.com/package/gulp-concat)
-Task, welcher mehrere Dateien zu einer zusammensetzt
-
-##### gulp-imagemin (https://www.npmjs.com/package/gulp-imagemin)
-Task, welcher Bilddateien minifiziert
 
 
 ## Dokumentation

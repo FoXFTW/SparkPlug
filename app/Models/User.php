@@ -24,17 +24,4 @@ class User extends Model
         'username',
         'email',
     ];
-
-    /**
-     * Gibt alle RIAs des Users als Collection zurück
-     *
-     * @return \App\SparkPlug\Collections\CollectionInterface|\App\SparkPlug\Models\ModelCollection|bool
-     */
-    public function rias()
-    {
-        $rias = new Ria();
-        $rias = $rias->query()->where('user_id', '=', $this->user_id)->fetchAll();
-
-        return $rias;
-    }
 }

@@ -8,6 +8,7 @@
 namespace App\Controllers\User\Auth;
 
 use App\Models\User;
+use App\SparkPlug\Auth\Auth;
 use App\SparkPlug\Controllers\AbstractController as Controller;
 use App\SparkPlug\Validation\Validation;
 use App\SparkPlug\Views\View;
@@ -20,29 +21,39 @@ use App\SparkPlug\Views\ViewInterface;
  */
 class RegisterController extends Controller
 {
+    protected $redirectTo = '/profile';
+
     /**
      * Register View
      *
      * @return \App\SparkPlug\Views\ViewInterface
+     * @throws \App\SparkPlug\Views\Exceptions\ViewNotFoundException
      */
     public function showRegisterView(): ViewInterface
     {
-        return new View('user.auth.register');
+        return new View('auth.register');
     }
 
     /**
      * @return \App\SparkPlug\Response\Redirect
+     * @throws \App\SparkPlug\Database\Exceptions\QueryException
+     * @throws \App\SparkPlug\Models\Exceptions\MissingTableException
+     * @throws \App\SparkPlug\Models\Exceptions\ModelNotFoundException
      * @throws \App\SparkPlug\Validation\Exceptions\ValidationException
      */
     public function register()
     {
+        if (login_check()) {
+            return redirect($this->redirectTo);
+        }
+
         $validator = new Validation();
 
         $data = $validator->validate(
             [
                 'username' => 'username|unique:users|min:3|max:255',
                 'password' => 'confirmed|min:3|max:255',
-                'email' => 'email|unique:users|max:255',
+                'email'    => 'email|unique:users|max:255',
             ],
             $this->request
         );
@@ -58,8 +69,10 @@ class RegisterController extends Controller
             return back();
         }
 
-        session_set('message', 'Erfolgreich registriert');
+        /** @var Auth $auth */
+        $auth = app()->make(Auth::class);
+        $auth->attempt($this->request->all());
 
-        return redirect('/login');
+        return redirect($this->redirectTo);
     }
 }

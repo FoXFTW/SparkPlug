@@ -20,9 +20,15 @@ class PageController extends Controller
      * Startseite des Shops
      *
      * @return \App\SparkPlug\Views\View
+     * @throws \App\SparkPlug\Views\Exceptions\ViewNotFoundException
      */
     public function showIndexView()
     {
-        return new View('index');
+        $view = new View('index');
+        $view->setVars([
+            'varFromView' => 'Hello World!',
+        ]);
+
+        return $view;
     }
 }

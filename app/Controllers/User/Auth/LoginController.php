@@ -21,14 +21,21 @@ use App\SparkPlug\Views\ViewInterface;
  */
 class LoginController extends Controller
 {
+    protected $redirectTo = '/profile';
+
     /**
      * Login View
      *
      * @return \App\SparkPlug\Views\ViewInterface
+     * @throws \App\SparkPlug\Views\Exceptions\ViewNotFoundException
      */
     public function showLoginView(): ViewInterface
     {
-        return new View('user.auth.login');
+        if (login_check()) {
+            return redirect($this->redirectTo);
+        }
+
+        return new View('auth.login');
     }
 
     /**
@@ -53,13 +60,13 @@ class LoginController extends Controller
             $data
         )) {
             /** @var Session $session */
-            session_set('error', ['Benutzername oder Passwort falsch!']);
+            session_set('error', ['Username or Password wrong']);
             session_set('username', $this->request->get('username'));
 
             return back();
         }
 
-        return redirect('/profile');
+        return redirect($this->redirectTo);
     }
 
     /**

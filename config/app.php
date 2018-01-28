@@ -19,5 +19,5 @@ return [
     /**
      * Session Prefix
      */
-    'session_prefix' => 'webshop',
+    'session_prefix' => 'sparkplug',
 ];
